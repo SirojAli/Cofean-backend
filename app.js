@@ -17,6 +17,6 @@ app.set("view engine", "ejs");
 
 // 4: Routing codes
 app.use("/cafe", router_bssr); // for admin and cafe users (BSSR)
-app.use("/", router); // for clients (SPA)
+app.use("/", router); // for cafe clients (SPA)
 
 module.exports = app;

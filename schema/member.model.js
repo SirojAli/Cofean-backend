@@ -17,10 +17,16 @@ const memberSchema = new mongoose.Schema(
       required: true,
       select: false,
     },
-    mb_phone: {
+    // **  new added  **
+    mb_email: {
       type: String,
       required: true,
       index: { unique: true, sparse: true },
+    },
+    mb_phone: {
+      type: String,
+      required: false,
+      // index: { unique: true, sparse: true },
     },
     mb_type: {
       type: String,
@@ -45,11 +51,6 @@ const memberSchema = new mongoose.Schema(
       required: false,
     },
     mb_description: {
-      type: String,
-      required: false,
-    },
-    mb_email: {
-      // **  new added  **
       type: String,
       required: false,
     },
