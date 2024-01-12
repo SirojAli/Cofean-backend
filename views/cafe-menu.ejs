@@ -1,4 +1,4 @@
-<%-include('includes/header')%>
+<!-- <%-include('includes/header')%>
 <link rel="stylesheet" type="text/css" href="/css/menu.css" />
 <body>
   <div id="main_container">
@@ -56,7 +56,7 @@
           </div>
         </div>
 
-            <!-- Add Food Form Start -->
+           
 
         <form onsubmit="return validateForm()" 
         action="/cafe/products/create" method="POST" class="dish_container"
@@ -151,7 +151,7 @@
 
         </form>
 
-              <!-- Add Food Form End -->
+            
               
       </div>
     </div>
@@ -177,7 +177,7 @@
       // Product Status Changer
 
       $(".new_product_status").on("change", async function(e){
-        <!-- console.log("event", e); -->
+        console.log("event", e);
         const id = e.target.id;
         const product_status = $(`#${id}.new_product_status`).val();
         try{
@@ -240,4 +240,4 @@
     }
   </script>
 </body>
-<%-include('includes/footer')%>
+<%-include('includes/footer')%> -->

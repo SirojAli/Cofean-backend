@@ -167,18 +167,18 @@ cafeController.checkSessions = (req, res) => {
 //   }
 // };
 
-// cafeController.validateAuthCafe = (req, res, next) => {
-//   if (req.session?.member?.mb_type === "CAFE") {
-//     req.member = req.session.member;
-//     next();
-//   }
-//   // res.redirect("/cafe");
-//   else
-//     res.json({
-//       state: "failed",
-//       error: "only authenticated members with cafe type",
-//     });
-// };
+cafeController.validateAuthCafe = (req, res, next) => {
+  if (req.session?.member?.mb_type === "CAFE") {
+    req.member = req.session.member;
+    next();
+  }
+  // res.redirect("/cafe");
+  else
+    res.json({
+      state: "failed",
+      message: "only authenticated members with CAFE type",
+    });
+};
 
 // cafeController.validateAdmin = (req, res, next) => {
 //   if (req.session?.member?.mb_type === "ADMIN") {
