@@ -5,52 +5,58 @@ const Product = require("../models/Product");
 const Cafe = require("../models/Cafe");
 let cafeController = module.exports;
 
-// getSignupMyCafe Process
+cafeController.getMyCafeData = async (req, res) => {
+  try {
+    console.log("GET: cont/getMyCafeData");
+    res.render("cafe-menu");
+  } catch (err) {
+    console.log(`ERROR, cont/getMyCafeData, ${err.message} `);
+    res.json({ state: "failed", message: err.message });
+  }
+};
+
 cafeController.getSignupMyCafe = async (req, res) => {
   try {
     console.log("GET: cont/getSignupMyCafe");
     res.render("signup");
   } catch (err) {
     console.log(`ERROR, cont/getSignupMyCafe, ${err.message} `);
-    res.json({ state: "fail", message: err.message });
+    res.json({ state: "failed", message: err.message });
   }
 };
 
-// Signup Process
 cafeController.signupProcess = async (req, res) => {
   try {
     console.log("POST: cont/signupProcess");
     assert(req.file, Definer.general_err3);
 
     let new_member = req.body;
-    new_member.mb_type = "RESTAURANT";
+    new_member.mb_type = "CAFE";
     new_member.mb_image = req.file.path.replace(/\\/g, "/");
 
-    const member = new Member(),
-      result = await member.signupData(new_member);
-    assert.ok(result, Definer.general_err1);
+    const member = new Member();
+    const result = await member.signupData(new_member);
 
+    assert.ok(result, Definer.general_err1);
     req.session.member = result;
+
     res.redirect("/cafe/products/menu");
   } catch (err) {
-    res.json({ state: "fail", message: err.message });
+    res.json({ state: "failed", message: err.message });
     console.log(`ERROR, cont/signup, ${err.message} `);
   }
 };
 
-// getLoginMyCafe Process
 cafeController.getLoginMyCafe = async (req, res) => {
   try {
     console.log("GET: cont/getLoginMyCafe");
     res.render("login-page");
   } catch (err) {
     console.log(`ERROR, cont/getLoginMyCafe, ${err.message} `);
-    res.json({ state: "fail", message: err.message });
-    // res.redirect("/cafe/login")
+    res.json({ state: "failed", message: err.message });
   }
 };
 
-// Login Process
 cafeController.loginProcess = async (req, res) => {
   try {
     console.log("POST: cont/loginProcess");
@@ -58,6 +64,7 @@ cafeController.loginProcess = async (req, res) => {
       member = new Member(),
       result = await member.loginData(data);
 
+    // SESSION AUTHENTICATION
     req.session.member = result;
     req.session.save(() => {
       result.mb_type === "ADMIN"
@@ -65,24 +72,32 @@ cafeController.loginProcess = async (req, res) => {
         : res.redirect("/cafe/products/menu");
     });
   } catch (err) {
-    // res.json({ state: "fail", message: err.message });
+    // res.json({ state: "failed", message: err.message });
     res.redirect("/cafe/login");
     console.log(`ERROR, cont/login, ${err.message} `);
   }
 };
 
-// // Logout Process
-// cafeController.logout = (req, res) => {
-//   try {
-//     console.log("GET cont/logout");
-//     req.session.destroy(function () {
-//       res.redirect("/cafe");
-//     });
-//   } catch (err) {
-//     res.redirect("/cafe/login");
-//     console.log(`ERROR, cont/login, ${err.message} `);
-//   }
-// };
+// Logout Process
+cafeController.logout = (req, res) => {
+  try {
+    console.log("GET cont/logout");
+    // req.session.destroy(function () {
+    //   res.redirect("/cafe");
+    // });
+  } catch (err) {
+    res.redirect("/cafe/login");
+    console.log(`ERROR, cont/login, ${err.message} `);
+  }
+};
+
+cafeController.checkSessions = (req, res) => {
+  if (req.session?.member) {
+    res.json({ state: "succeed", data: req.session.member });
+  } else {
+    res.json({ state: "failed", message: "You are not authenticated" });
+  }
+};
 
 // cafeController.getCafes = async (req, res) => {
 //   try {
@@ -92,10 +107,10 @@ cafeController.loginProcess = async (req, res) => {
 //     // res.send("DONE!");
 //     const cafe = new Cafe();
 //     const result = await cafe.getCafesData(req.member, data);
-//     res.json({ state: "success", data: result });
+//     res.json({ state: "succeed", data: result });
 //   } catch (err) {
 //     console.log(`ERROR, cont/getCafes, ${err.message} `);
-//     res.json({ state: "fail", message: err.message });
+//     res.json({ state: "failed", message: err.message });
 //   }
 // };
 
@@ -107,10 +122,10 @@ cafeController.loginProcess = async (req, res) => {
 
 //     const cafe = new Cafe();
 //     const result = await cafe.getChosenCafeData(req.member, id);
-//     res.json({ state: "success", data: result });
+//     res.json({ state: "succeed", data: result });
 //   } catch (err) {
 //     console.log(`ERROR, cont/getChosenCafe, ${err.message} `);
-//     res.json({ state: "fail", message: err.message });
+//     res.json({ state: "failed", message: err.message });
 //   }
 // };
 
@@ -124,7 +139,7 @@ cafeController.loginProcess = async (req, res) => {
 //     res.render("home-page");
 //   } catch (err) {
 //     console.log(`ERROR, cont/home, ${err.message} `);
-//     res.json({ state: "fail", message: err.message });
+//     res.json({ state: "failed", message: err.message });
 //   }
 // };
 
@@ -136,7 +151,7 @@ cafeController.loginProcess = async (req, res) => {
 //     res.render("cafe-menu", { cafe_data: data });
 //   } catch (err) {
 //     console.log(`ERROR, cont/getMyCafeProducts, ${err.message} `);
-//     // res.json({ state: "fail", message: err.message });
+//     // res.json({ state: "failed", message: err.message });
 //     res.redirect("/cafe");
 //   }
 // };
@@ -147,30 +162,22 @@ cafeController.loginProcess = async (req, res) => {
 //     res.render("login-page");
 //   } catch (err) {
 //     console.log(`ERROR, cont/getLoginMyCafe, ${err.message} `);
-//     res.json({ state: "fail", message: err.message });
+//     res.json({ state: "failed", message: err.message });
 //     // res.redirect("/cafe/login")
 //   }
 // };
 
 // cafeController.validateAuthCafe = (req, res, next) => {
-//   if (req.session?.member?.mb_type === "RESTAURANT") {
+//   if (req.session?.member?.mb_type === "CAFE") {
 //     req.member = req.session.member;
 //     next();
 //   }
 //   // res.redirect("/cafe");
 //   else
 //     res.json({
-//       state: "fail",
+//       state: "failed",
 //       error: "only authenticated members with cafe type",
 //     });
-// };
-
-// cafeController.checkSessions = (req, res) => {
-//   if (req.session?.member) {
-//     res.json({ state: "success", data: req.session.member });
-//   } else {
-//     res.json({ state: "fail", message: "You are not authenticated" });
-//   }
 // };
 
 // cafeController.validateAdmin = (req, res, next) => {
@@ -198,7 +205,7 @@ cafeController.loginProcess = async (req, res) => {
 //     res.render("all-cafes", { cafe_data: cafe_data });
 //   } catch (err) {
 //     console.log(`ERROR, cont/getAllCafes, ${err.message} `);
-//     res.json({ state: "fail", message: err.message });
+//     res.json({ state: "failed", message: err.message });
 //   }
 // };
 
@@ -208,12 +215,12 @@ cafeController.loginProcess = async (req, res) => {
 
 //     const cafe = new Cafe();
 //     const result = await cafe.updateCafeByAdminData(req.body);
-//     await res.json({ state: "success", data: result });
+//     await res.json({ state: "succeed", data: result });
 
 //     // todo: hamma cafelarni db dan chaqiramiz
 //     // res.render("all-cafes", { cafe_data: cafe_data });
 //   } catch (err) {
 //     console.log(`ERROR, cont/updateCafeByAdmin, ${err.message} `);
-//     res.json({ state: "fail", message: err.message });
+//     res.json({ state: "failed", message: err.message });
 //   }
 // };

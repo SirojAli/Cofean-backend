@@ -1,4 +1,4 @@
-.restaurant_menu_frame {
+.cafe_menu_frame {
   position: relative;
   width: 100%;
   height: auto;
@@ -9,7 +9,7 @@
   background: #2c261e;
 }
 
-.restaurant_container {
+.cafe_container {
   position: relative;
   width: 1320px;
   height: auto;
@@ -19,7 +19,7 @@
   align-items: center;
 }
 
-.restaurant_container .dishs_table {
+.cafe_container .dishs_table {
   position: relative;
   width: 100%;
   height: auto;
@@ -30,7 +30,7 @@
   text-align: center;
 }
 
-.restaurant_container .cafe_table {
+.cafe_container .cafe_table {
   position: relative;
   width: 85%;
   height: auto;

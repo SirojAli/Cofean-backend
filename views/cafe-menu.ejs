@@ -15,8 +15,8 @@
         </li>
       </ul>
     </div>
-    <div class="restaurant_menu_frame">
-      <div class="restaurant_container">
+    <div class="cafe_menu_frame">
+      <div class="cafe_container">
         <div class="dishs_table">
           <span class="new_dish_txt">
             <%= member.mb_nick.toUpperCase() %> Taomlar Menyusi
@@ -31,7 +31,7 @@
               <th scope="col">Taom qoldiq miqdori</th>
               <th scope="col">Taom Holati</th>
             </thead>
-            <% restaurant_data.map((value, key) => { %>
+            <% cafe_data.map((value, key) => { %>
             <tbody style="background-color: #ffffff">
               <td><%= key + 1 %></td>
               <td><%= value.product_name%></td>
@@ -142,7 +142,7 @@
                 <img src="/images/upload.svg" class="5" id="image_section_5" alt="dish">
                 <input type="file" name="product_images" class="image_five" id="file" onchange="previewFileHandler(this, 5)">
               </div>
-              <input type="text" value="<%= member._id%>" name="restaurant_id" class="restaurant_id" hidden>
+              <input type="text" value="<%= member._id%>" name="cafe_id" class="cafe_id" hidden>
             </div>
           </div>
           <div class="long_input" style="align-items: flex-end; margin-bottom: 25px">
@@ -186,8 +186,8 @@
           // kutish bo'ladi
           const result = response.data;
           console.log("result: ", result);
-          if(result.state == 'success'){
-            alert('success');
+          if(result.state == 'succeed'){
+            alert('succeed');
             location.reload();
           }else{
             alert(result.message)
@@ -200,7 +200,7 @@
     })
 
     function validateForm(){
-      const restaurant_mb_id = $(".restaurant_mb_id").val(),
+      const cafe_mb_id = $(".cafe_mb_id").val(),
         product_name = $(".product_name").val(),
         product_price = $(".product_price").val(),
         product_left_cnt = $(".product_left_cnt").val(),
@@ -209,7 +209,7 @@
         product_status = $(".product_status").val();
 
       if(
-        restaurant_mb_id == '' ||
+        cafe_mb_id == '' ||
         product_name == '' ||
         product_price == '' ||
         product_left_cnt == '' ||

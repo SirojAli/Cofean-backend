@@ -85,7 +85,7 @@ const productSchema = new mongoose.Schema(
       required: false,
       default: 0,
     },
-    restaurant_mb_id: {
+    cafe_mb_id: {
       type: Schema.Types.ObjectId,
       ref: "Member",
       required: false,
@@ -96,7 +96,7 @@ const productSchema = new mongoose.Schema(
 
 productSchema.index(
   {
-    restaurant_mb_id: 1,
+    cafe_mb_id: 1,
     product_name: 1,
     product_size: 1,
     product_volume: 1,

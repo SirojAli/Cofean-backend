@@ -9,28 +9,24 @@ const cafeController = require("./controllers/cafeController");
 /********************
  *     BSSR EJS     *
  ********************/
-// router_bssr.get("/", cafeController.home);
 
 // Signup Router for Signup Process
-router_bssr.get("/signup", cafeController.getSignupMyCafe).post(
-  "/signup",
-  // uploader_member.single("cafe_img"),
-  cafeController.signupProcess
-);
+router_bssr
+  .get("/signup", cafeController.getSignupMyCafe)
+  .post("/signup", cafeController.signupProcess);
 
 // Login Router for Login Process
 router_bssr
   .get("/login", cafeController.getLoginMyCafe)
   .post("/login", cafeController.loginProcess);
 
-// router_bssr.get("/logout", cafeController.logout);
-// router_bssr.get("/check-me", cafeController.checkSessions);
+router_bssr.get("/logout", cafeController.logout);
+router_bssr.get("/check-me", cafeController.checkSessions);
 
-// router_bssr.get(
-//   "/products/menu",
-//   cafeController.validateAuthCafe,
-//   cafeController.getMyCafeProducts
-// );
+router_bssr.get("/products/menu", cafeController.getMyCafeData);
+
+module.exports = router_bssr;
+
 // router_bssr.post(
 //   "/products/create",
 //   cafeController.validateAuthCafe,
@@ -54,5 +50,3 @@ router_bssr
 //   cafeController.validateAdmin,
 //   cafeController.updateCafeByAdmin
 // );
-
-module.exports = router_bssr;

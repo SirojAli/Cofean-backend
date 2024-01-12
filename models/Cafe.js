@@ -15,7 +15,7 @@
 //   async getRestaurantsData(member, data) {
 //     try {
 //       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
-//       let match = { mb_type: "RESTAURANT", mb_status: "ACTIVE" };
+//       let match = { mb_type: "CAFE", mb_status: "ACTIVE" };
 //       let aggregationQuery = [];
 //       data.limit = data["limit"] * 1;
 //       data.page = data["page"] * 1;
@@ -79,7 +79,7 @@
 //     try {
 //       const result = await this.memberModel
 //         .find({
-//           mb_type: "RESTAURANT",
+//           mb_type: "CAFE",
 //         })
 //         .exec();
 

@@ -79,7 +79,7 @@
             alt="default_cafe"
           />
           <div class="upload_container">
-            <span class="media_text">Restaurant Rasmi</span>
+            <span class="media_text">Cafe Rasmi</span>
             <div class="filebox bs3-primary preview-image">
               <input
                 disabled="disabled"
@@ -90,8 +90,8 @@
               <input
                 type="file"
                 id="input_file"
-                name="restaurant_img"
-                class="upload-hidden form-control-file restaurant_img"
+                name="cafe_img"
+                class="upload-hidden form-control-file cafe_img"
               />
             </div>
             <p class="thumbnail_desc">
@@ -126,7 +126,7 @@
               console.log(URL.createObjectURL(uploading_file));
               $(".upload_img_frame")
                 .attr("src", URL.createObjectURL(uploading_file))
-                .addClass("success");
+                .addClass("succeed");
             }
             filename = uploading_file.name;
           }
@@ -139,7 +139,7 @@
       const mb_phone = $(".mb_phone").val();
       const mb_password = $(".mb_password").val();
       const mb_confirm_password = $(".mb_confirm_password").val();
-      const restaurant_img = $(".restaurant_img").get(0).files[0] ?? null;
+      const cafe_img = $(".cafe_img").get(0).files[0] ?? null;
       if (
         mb_nick == "" ||
         mb_password == "" ||
@@ -152,7 +152,7 @@
         alert("Iltimos bir xil passwordni kiriting");
         return false;
       }
-      if (!restaurant_img) {
+      if (!cafe_img) {
         alert("Iltimos rasmni yuklang!");
         return false;
       }
