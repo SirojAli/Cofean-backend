@@ -1,9 +1,10 @@
 // MEMBER SERVICE MODEL (file nomi js shu fileni class sifatida qabul qilishi uchun bosh harfda yozildi)
-const {
-  shapeIntoMongooseObjectId,
-  lookup_auth_member_following,
-  lookup_auth_member_liked,
-} = require("../lib/config");
+// const {
+//   shapeIntoMongooseObjectId,
+//   lookup_auth_member_following,
+//   lookup_auth_member_liked,
+// } = require("../lib/config");
+
 const Definer = require("../lib/mistake");
 const MemberModel = require("../schema/member.model");
 const assert = require("assert");
