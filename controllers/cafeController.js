@@ -5,6 +5,22 @@ const Product = require("../models/Product");
 const Cafe = require("../models/Cafe");
 let cafeController = module.exports;
 
+cafeController.getMyCafeProducts = async (req, res) => {
+  try {
+    console.log("GET: cont/getMyCafeProducts");
+
+    const product = new Product();
+    const data = await product.getMyCafeProductsData(req.locals.member);
+    // const data = await product.getAllProductsDataCafe(req.member);
+
+    res.render("cafe-menu", { cafe_data: data });
+  } catch (err) {
+    console.log(`ERROR, cont/getMyCafeProducts, ${err.message} `);
+    // res.json({ state: "failed", message: err.message });
+    res.redirect("/cafe");
+  }
+};
+
 cafeController.validateAuthCafe = (req, res, next) => {
   if (req.session?.member?.mb_type === "CAFE") {
     req.member = req.session.member;
@@ -153,19 +169,6 @@ cafeController.checkSessions = (req, res) => {
 //   } catch (err) {
 //     console.log(`ERROR, cont/home, ${err.message} `);
 //     res.json({ state: "failed", message: err.message });
-//   }
-// };
-
-// cafeController.getMyCafeProducts = async (req, res) => {
-//   try {
-//     console.log("GET: cont/getMyCafeProducts");
-//     const product = new Product();
-//     const data = await product.getAllProductsDatacafe(req.member);
-//     res.render("cafe-menu", { cafe_data: data });
-//   } catch (err) {
-//     console.log(`ERROR, cont/getMyCafeProducts, ${err.message} `);
-//     // res.json({ state: "failed", message: err.message });
-//     res.redirect("/cafe");
 //   }
 // };
 
