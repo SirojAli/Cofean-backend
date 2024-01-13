@@ -9,6 +9,8 @@ const uploader_product = require("./utils/upload-multer")("products");
  *     BSSR EJS     *
  ********************/
 
+router_bssr.get("/", cafeController.home);
+
 router_bssr
   .get("/signup", cafeController.getSignupMyCafe)
   .post("/signup", cafeController.signupProcess);

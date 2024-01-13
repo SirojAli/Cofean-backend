@@ -5,6 +5,16 @@ const Product = require("../models/Product");
 const Cafe = require("../models/Cafe");
 let cafeController = module.exports;
 
+cafeController.home = async (req, res) => {
+  try {
+    console.log("GET: cont/home");
+    res.render("home-page");
+  } catch (err) {
+    console.log(`ERROR, cont/home, ${err.message} `);
+    res.json({ state: "failed", message: err.message });
+  }
+};
+
 cafeController.getMyCafeProducts = async (req, res) => {
   try {
     console.log("GET: cont/getMyCafeProducts");
@@ -161,16 +171,6 @@ cafeController.checkSessions = (req, res) => {
 // /*******************************************
 //  **        BSSR RELATED METHODS            **
 //  ********************************************/
-
-// cafeController.home = async (req, res) => {
-//   try {
-//     console.log("GET: cont/home");
-//     res.render("home-page");
-//   } catch (err) {
-//     console.log(`ERROR, cont/home, ${err.message} `);
-//     res.json({ state: "failed", message: err.message });
-//   }
-// };
 
 // cafeController.getLoginMyCafe = async (req, res) => {
 //   try {
