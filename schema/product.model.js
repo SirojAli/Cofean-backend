@@ -39,30 +39,45 @@ const productSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
-    product_left_cnt: {
+    product_left_count: {
       type: Number,
       required: true,
     },
+    // for coffee, tea, smoothies
+    product_volume: {
+      type: Number,
+      default: 1,
+      required: function () {
+        return this.product_collection === "beverage";
+      },
+      enum: {
+        values: product_volume_enums,
+        message: "{VALUES} is not among permitted values",
+      },
+    },
+    // for food and cakes
     product_size: {
       type: String,
       required: function () {
-        const sized_list = ["dish", "salad", "dessert"];
+        const sized_list = ["food"];
         return sized_list.includes(this.product_collection);
       },
-      default: "normal",
+      default: "small",
       enum: {
         values: product_size_enums,
         message: "{VALUES} is not among permitted values",
       },
     },
-    product_volume: {
+    // for goods/items and card
+    product_item_size: {
       type: Number,
-      default: 1,
       required: function () {
-        return this.product_collection === "drink";
+        const item_list = ["goods", "card"];
+        return item_list.includes(this.product_collection);
       },
+      default: 1,
       enum: {
-        values: product_volume_enums,
+        values: product_size_enums,
         message: "{VALUES} is not among permitted values",
       },
     },
@@ -91,9 +106,10 @@ const productSchema = new mongoose.Schema(
       required: false,
     },
   },
-  { timestamps: true }
+  { timestamps: true } // createdAt, updatedAt
 );
 
+// below: DBga 1xil tovar,1xil size ni yozmasin, agar b-a, ustiga add qilsin
 productSchema.index(
   {
     cafe_mb_id: 1,
