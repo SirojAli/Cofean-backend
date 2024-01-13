@@ -55,32 +55,20 @@ const productSchema = new mongoose.Schema(
         message: "{VALUES} is not among permitted values",
       },
     },
-    // for food and cakes
+    // for food and cakes & goods and card
     product_size: {
       type: String,
       required: function () {
-        const sized_list = ["food"];
+        const sized_list = ["food", "goods"];
         return sized_list.includes(this.product_collection);
       },
-      default: "small",
+      default: "default",
       enum: {
         values: product_size_enums,
         message: "{VALUES} is not among permitted values",
       },
     },
-    // for goods/items and card
-    product_item_size: {
-      type: Number,
-      required: function () {
-        const item_list = ["goods", "card"];
-        return item_list.includes(this.product_collection);
-      },
-      default: 1,
-      enum: {
-        values: product_size_enums,
-        message: "{VALUES} is not among permitted values",
-      },
-    },
+
     product_description: {
       type: String,
       required: false,

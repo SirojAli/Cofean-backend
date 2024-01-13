@@ -41,7 +41,7 @@ class Member {
         .findOne({ mb_nick: input.mb_nick }, { mb_nick: 1, mb_password: 1 })
         .exec();
       assert.ok(member, Definer.auth_err3);
-      console.log("member >>>", member);
+      console.log("member >>", member);
 
       const isMatch = await bcrypt.compare(
         input.mb_password,
@@ -124,7 +124,7 @@ class Member {
   //     assert.ok(isValid, Definer.general_err2);
 
   //     const doesExist = await like.checkLikeExistence(like_ref_id);
-  //     console.log("doesExist>>>", doesExist);
+  //     console.log("doesExist>>", doesExist);
 
   //     let data = doesExist
   //       ? await like.removeMemberLike(like_ref_id, group_type)

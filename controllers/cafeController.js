@@ -5,10 +5,24 @@ const Product = require("../models/Product");
 const Cafe = require("../models/Cafe");
 let cafeController = module.exports;
 
+cafeController.validateAuthCafe = (req, res, next) => {
+  if (req.session?.member?.mb_type === "CAFE") {
+    req.member = req.session.member;
+    next();
+  }
+  // res.redirect("/cafe");
+  else
+    res.json({
+      state: "failed",
+      message: "only authenticated members with CAFE type",
+    });
+};
+
 cafeController.getMyCafeData = async (req, res) => {
   try {
     console.log("GET: cont/getMyCafeData");
-    res.render("cafe-menu");
+    // res.render("cafe-menu");
+    res.send("OK");
   } catch (err) {
     console.log(`ERROR, cont/getMyCafeData, ${err.message} `);
     res.json({ state: "failed", message: err.message });
@@ -78,13 +92,12 @@ cafeController.loginProcess = async (req, res) => {
   }
 };
 
-// Logout Process
 cafeController.logout = (req, res) => {
   try {
     console.log("GET cont/logout");
-    // req.session.destroy(function () {
-    //   res.redirect("/cafe");
-    // });
+    req.session.destroy(function () {
+      res.redirect("/cafe");
+    });
   } catch (err) {
     res.redirect("/cafe/login");
     console.log(`ERROR, cont/login, ${err.message} `);
@@ -166,19 +179,6 @@ cafeController.checkSessions = (req, res) => {
 //     // res.redirect("/cafe/login")
 //   }
 // };
-
-cafeController.validateAuthCafe = (req, res, next) => {
-  if (req.session?.member?.mb_type === "CAFE") {
-    req.member = req.session.member;
-    next();
-  }
-  // res.redirect("/cafe");
-  else
-    res.json({
-      state: "failed",
-      message: "only authenticated members with CAFE type",
-    });
-};
 
 // cafeController.validateAdmin = (req, res, next) => {
 //   if (req.session?.member?.mb_type === "ADMIN") {
