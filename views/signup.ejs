@@ -1,4 +1,4 @@
-<!-- <%-include('includes/header')%>
+<%-include('includes/header')%>
 <link rel="stylesheet" type="text/css" href="/css/login.css" />
 <body>
   <form
@@ -10,36 +10,36 @@
   >
     <div class="login_frame" style="width: 650px; height: 730px">
       <div class="login_top">
-        <span>Ro'yxatdan o'tish</span>
+        <span>Register</span>
         <div>
-          Bosh sahifaga qaytish
+          Back to Homepage
           <a style="color: #6440fb" href="/cafe">Home</a>
         </div>
         <p>
-          Ro'yxatdan allaqachon o'tganmisiz?
+          Already registered?
           <a style="color: #6440fb" href="/cafe/login">Login</a>
         </p>
       </div>
       <div class="sign_input_frame">
         <div class="sign_up_frame">
-          <label for="">Foydalanuvchining ismi</label>
+          <label for="">Username</label>
           <input
             type="text"
             name="mb_nick"
             class="mb_nick"
-            placeholder="Foydalanuvchining ismi"
+            placeholder="Username"
             value=""
             required
             autocomplete="off"
           />
         </div>
         <div class="sign_up_frame">
-          <label for="">Telefon raqam</label>
+          <label for="">Phone Number</label>
           <input
             type="text"
             name="mb_phone"
             class="mb_phone"
-            placeholder="Telefon raqam"
+            placeholder="Phone Number"
             value=""
             required
             autocomplete="off"
@@ -64,7 +64,7 @@
             type="password"
             name="mb_confirm_password"
             class="mb_confirm_password"
-            placeholder="Passwordni tasdiqlash "
+            placeholder="Confirm Password "
             value=""
             required
           />
@@ -78,14 +78,14 @@
             alt="default_cafe"
           />
           <div class="upload_container">
-            <span class="media_text">Cafe Rasmi</span>
+            <span class="media_text">Cafe photo</span>
             <div class="filebox bs3-primary preview-image">
               <input
                 disabled="disabled"
-                value="Rasmni tanlang"
+                value="Select a photo"
                 class="upload-name"
               />
-              <label for="input_file">Rasm Yuklash</label>
+              <label for="input_file">Upload a photo</label>
               <input
                 type="file"
                 id="input_file"
@@ -94,15 +94,15 @@
               />
             </div>
             <p class="thumbnail_desc">
-              Oshxona rasmingizni bu yerga yuklang. <br />Muhim ko'rsatmalar:
-              .jpg, .jpeg, png <br />
-              rasmda matn yo'q bo'lishi kerak!
+              Upload your cafe's photo here.<br />Attention: .jpg, .jpeg, png
+              <br />
+              No context in Photo!
             </p>
           </div>
         </div>
       </div>
       <button class="login_btn btn" name="signup" type="submit">
-        Ro'yxatdan o'tish
+        Register
       </button>
     </div>
   </form>
@@ -117,9 +117,7 @@
           const fileType = uploading_file["type"];
           const validImgTypes = ["image/jpg", "image/jpeg", "image/png"];
           if (!validImgTypes.includes(fileType)) {
-            alert(
-              "Iltimos ruxsat etilgan formatdagi rasmlarni yuklang: jpg, jpeg, png"
-            );
+            alert("Please, Upload required photo types: (jpg, jpeg, png)");
           } else {
             if (uploading_file) {
               console.log(URL.createObjectURL(uploading_file));
@@ -145,18 +143,18 @@
         mb_phone == "" ||
         mb_confirm_password == ""
       ) {
-        alert("Iltimos, hamma ma'lumotlarni kiriting");
+        alert("Please, Input all information correctly!");
         return false;
       } else if (mb_password !== mb_confirm_password) {
-        alert("Iltimos bir xil passwordni kiriting");
+        alert("Please, Input the same passwords");
         return false;
       }
       if (!cafe_img) {
-        alert("Iltimos rasmni yuklang!");
+        alert("Please, Upload a photo!");
         return false;
       }
       return true;
     }
   </script>
 </body>
-<%-include('includes/footer')%> -->
+<%-include('includes/footer')%>

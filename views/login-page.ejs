@@ -1,24 +1,24 @@
-<!-- <%-include('includes/header')%>
+<%-include('includes/header')%>
 <link rel="stylesheet" type="text/css" href="/css/login.css" />
 <body>
   <form action="/cafe/login" method="POST" class="login_container">
     <div class="login_frame" style="height: 460px">
       <div class="login_top">
-        <span>Saytga Kirish</span>
+        <span>Login</span>
         <div>
-          Bosh sahifaga qaytish
+          Back to Homepage |
           <a style="color: #6440fb" href="/cafe">Home</a>
         </div>
         <p>
-          Ro'yxatdan o'tganmisiz?
-          <a style="color: #6440fb" href="/cafe/sign-up">Ro'yxatdan o'tish</a>
+          You don't have an account? |
+          <a style="color: #6440fb" href="/cafe/sign-up">Signup</a>
         </p>
       </div>
       <div class="login_input_frame">
         <div class="login_input_container">
-          <label for="">Foydalanuvchining ismi:</label>
+          <label for="">Username:</label>
           <input
-            placeholder="Foydalanuvchining ismi"
+            placeholder="Username"
             name="mb_nick"
             type="text"
             value=""
@@ -26,7 +26,7 @@
           />
         </div>
         <div class="login_input_container">
-          <label for="">Password kiriting:</label>
+          <label for="">Enter password:</label>
           <input
             placeholder="Password"
             name="mb_password"
@@ -36,8 +36,8 @@
           />
         </div>
       </div>
-      <button class="login_btn" name="login" type="submit">Kirish</button>
+      <button class="login_btn" name="login" type="submit">Login</button>
     </div>
   </form>
 </body>
-<%-include('includes/footer')%> -->
+<%-include('includes/footer')%>

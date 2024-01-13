@@ -83,7 +83,7 @@ cafeController.signupProcess = async (req, res) => {
     res.redirect("/cafe/products/menu");
   } catch (err) {
     res.json({ state: "failed", message: err.message });
-    console.log(`ERROR, cont/signup, ${err.message} `);
+    console.log(`ERROR, cont/signupProcess, ${err.message} `);
   }
 };
 
@@ -114,7 +114,7 @@ cafeController.loginProcess = async (req, res) => {
   } catch (err) {
     // res.json({ state: "failed", message: err.message });
     res.redirect("/cafe/login");
-    console.log(`ERROR, cont/login, ${err.message} `);
+    console.log(`ERROR, cont/loginProcess, ${err.message} `);
   }
 };
 
@@ -126,7 +126,7 @@ cafeController.logout = (req, res) => {
     });
   } catch (err) {
     res.redirect("/cafe/login");
-    console.log(`ERROR, cont/login, ${err.message} `);
+    console.log(`ERROR, cont/logout, ${err.message} `);
   }
 };
 
