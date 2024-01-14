@@ -58,89 +58,116 @@ class Member {
     }
   }
 
-  // async getChosenMemberData(member, id) {
-  //   try {
-  //     const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
-  //     id = shapeIntoMongooseObjectId(id);
-  //     console.log("member: :", member);
+  async getChosenMemberData(member, id) {
+    try {
+      const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
+      id = shapeIntoMongooseObjectId(id);
+      console.log("member: :", member);
 
-  //     let aggregationQuery = [
-  //       { $match: { _id: id, mb_status: "ACTIVE" } },
-  //       { $unset: "mb_password" },
-  //     ];
+      let aggregationQuery = [
+        { $match: { _id: id, mb_status: "ACTIVE" } },
+        { $unset: "mb_password" },
+      ];
 
-  //     if (member) {
-  //       await this.viewChosenItemByMember(member, id, "member");
+      if (member) {
+        await this.viewChosenItemByMember(member, id, "member");
 
-  //       // todo: check auth member liked the chosen member
-  //       aggregationQuery.push(lookup_auth_member_liked(auth_mb_id));
-  //       aggregationQuery.push(
-  //         lookup_auth_member_following(auth_mb_id, "members")
-  //       );
-  //     }
+        // todo: check auth member liked the chosen member
+        aggregationQuery.push(lookup_auth_member_liked(auth_mb_id));
+        aggregationQuery.push(
+          lookup_auth_member_following(auth_mb_id, "members")
+        );
+      }
 
-  //     const result = await this.memberModel.aggregate(aggregationQuery).exec();
+      const result = await this.memberModel.aggregate(aggregationQuery).exec();
 
-  //     assert.ok(result, Definer.general_err2);
-  //     return result[0];
-  //   } catch (err) {
-  //     throw err;
-  //   }
-  // }
+      assert.ok(result, Definer.general_err2);
+      return result[0];
+    } catch (err) {
+      throw err;
+    }
+  }
 
-  // async viewChosenItemByMember(member, view_ref_id, group_type) {
-  //   try {
-  //     view_ref_id = shapeIntoMongooseObjectId(view_ref_id);
-  //     const mb_id = shapeIntoMongooseObjectId(member._id);
-  //     const view = new View(mb_id);
+  async viewChosenItemByMember(member, view_ref_id, group_type) {
+    try {
+      view_ref_id = shapeIntoMongooseObjectId(view_ref_id);
+      const mb_id = shapeIntoMongooseObjectId(member._id);
+      const view = new View(mb_id);
 
-  //     // validation needed
-  //     const isValid = await view.validateChosenTarget(view_ref_id, group_type);
-  //     console.log("isValid:::", isValid);
-  //     assert.ok(isValid, Definer.general_err2);
+      // validation needed
+      const isValid = await view.validateChosenTarget(view_ref_id, group_type);
+      console.log("isValid:::", isValid);
+      assert.ok(isValid, Definer.general_err2);
 
-  //     // logged user has seen target before
-  //     const doesExist = await view.checkViewExistence(view_ref_id);
-  //     console.log("doesExist : ", doesExist);
+      // logged user has seen target before
+      const doesExist = await view.checkViewExistence(view_ref_id);
+      console.log("doesExist : ", doesExist);
 
-  //     if (!doesExist) {
-  //       const result = await view.insertMemberView(view_ref_id, group_type);
-  //       assert.ok(result, Definer.general_err1);
-  //     }
-  //     return true;
-  //   } catch (err) {
-  //     throw err;
-  //   }
-  // }
+      if (!doesExist) {
+        const result = await view.insertMemberView(view_ref_id, group_type);
+        assert.ok(result, Definer.general_err1);
+      }
+      return true;
+    } catch (err) {
+      throw err;
+    }
+  }
 
-  // async likeChosenItemByMember(member, like_ref_id, group_type) {
-  //   try {
-  //     like_ref_id = shapeIntoMongooseObjectId(like_ref_id);
-  //     const mb_id = shapeIntoMongooseObjectId(member._id);
+  async likeChosenItemByMember(member, like_ref_id, group_type) {
+    try {
+      like_ref_id = shapeIntoMongooseObjectId(like_ref_id);
+      const mb_id = shapeIntoMongooseObjectId(member._id);
 
-  //     const like = new Like(mb_id);
-  //     const isValid = await like.validateTargetItem(like_ref_id, group_type);
-  //     // console.log("isValid:::", isValid);
-  //     assert.ok(isValid, Definer.general_err2);
+      const like = new Like(mb_id);
+      const isValid = await like.validateTargetItem(like_ref_id, group_type);
+      // console.log("isValid:::", isValid);
+      assert.ok(isValid, Definer.general_err2);
 
-  //     const doesExist = await like.checkLikeExistence(like_ref_id);
-  //     console.log("doesExist>>", doesExist);
+      const doesExist = await like.checkLikeExistence(like_ref_id);
+      console.log("doesExist>>", doesExist);
 
-  //     let data = doesExist
-  //       ? await like.removeMemberLike(like_ref_id, group_type)
-  //       : await like.insertMemberLike(like_ref_id, group_type);
-  //     assert.ok(data, Definer.general_err1);
+      let data = doesExist
+        ? await like.removeMemberLike(like_ref_id, group_type)
+        : await like.insertMemberLike(like_ref_id, group_type);
+      assert.ok(data, Definer.general_err1);
 
-  //     const result = {
-  //       like_group: data.like_group,
-  //       like_ref_id: data.like_ref_id,
-  //       like_status: doesExist ? 0 : 1,
-  //     };
-  //     return result;
-  //   } catch (err) {
-  //     throw err;
-  //   }
-  // }
+      const result = {
+        like_group: data.like_group,
+        like_ref_id: data.like_ref_id,
+        like_status: doesExist ? 0 : 1,
+      };
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateMemberData(id, data, image) {
+    try {
+      const mb_id = shapeIntoMongooseObjectId(id);
+      let params = {
+        mb_nick: data.mb_nick,
+        mb_email: data.mb_email,
+        mb_address: data.mb_address,
+        mb_description: data.mb_description,
+        mb_image: image ? image.path.replace(/\\/g, "/") : null,
+      };
+
+      for (let prop in params) if (!params[prop]) delete params[prop];
+      const result = await this.memberModel
+        .findOneAndUpdate({ _id: mb_id }, params, {
+          runValidators: true,
+          lean: true,
+          returnDocument: "after",
+        })
+        .exec();
+      assert.ok(result, Definer.general_err1);
+
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = Member;

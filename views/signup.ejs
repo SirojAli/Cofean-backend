@@ -4,19 +4,19 @@
   <form
     onsubmit="return validateSignUpForm()"
     class="login_container"
-    action="/cafe/sign-up"
+    action="/cafe/signup"
     method="POST"
     enctype="multipart/form-data"
   >
     <div class="login_frame" style="width: 650px; height: 730px">
       <div class="login_top">
-        <span>Register</span>
+        <span>Signup</span>
         <div>
-          Back to Homepage
+          Back to Homepage |
           <a style="color: #6440fb" href="/cafe">Home</a>
         </div>
         <p>
-          Already registered?
+          Already registered? |
           <a style="color: #6440fb" href="/cafe/login">Login</a>
         </p>
       </div>
@@ -34,12 +34,12 @@
           />
         </div>
         <div class="sign_up_frame">
-          <label for="">Phone Number</label>
+          <label for="">Email</label>
           <input
             type="text"
-            name="mb_phone"
-            class="mb_phone"
-            placeholder="Phone Number"
+            name="mb_email"
+            class="mb_email"
+            placeholder="Email"
             value=""
             required
             autocomplete="off"
@@ -59,12 +59,12 @@
           />
         </div>
         <div class="sign_up_frame">
-          <label for="">Passwordni qayta kiriting</label>
+          <label for="">Confirm Password</label>
           <input
             type="password"
             name="mb_confirm_password"
             class="mb_confirm_password"
-            placeholder="Confirm Password "
+            placeholder="Confirm Password"
             value=""
             required
           />
@@ -94,16 +94,12 @@
               />
             </div>
             <p class="thumbnail_desc">
-              Upload your cafe's photo here.<br />Attention: .jpg, .jpeg, png
-              <br />
-              No context in Photo!
+              (Upload required photo types: jpg, jpeg, png)
             </p>
           </div>
         </div>
       </div>
-      <button class="login_btn btn" name="signup" type="submit">
-        Register
-      </button>
+      <button class="login_btn btn" name="signup" type="submit">Signup</button>
     </div>
   </form>
   <script>
@@ -133,14 +129,14 @@
     });
     function validateSignUpForm() {
       const mb_nick = $(".mb_nick").val();
-      const mb_phone = $(".mb_phone").val();
+      const mb_email = $(".mb_email").val();
       const mb_password = $(".mb_password").val();
       const mb_confirm_password = $(".mb_confirm_password").val();
       const cafe_img = $(".cafe_img").get(0).files[0] ?? null;
       if (
         mb_nick == "" ||
         mb_password == "" ||
-        mb_phone == "" ||
+        mb_email == "" ||
         mb_confirm_password == ""
       ) {
         alert("Please, Input all information correctly!");

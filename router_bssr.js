@@ -3,7 +3,7 @@ const router_bssr = express.Router();
 const cafeController = require("./controllers/cafeController");
 const productController = require("./controllers/productController");
 const uploader_product = require("./utils/upload-multer")("products");
-// const uploader_member = require("./utils/upload-multer")("members");
+const uploader_member = require("./utils/upload-multer")("members");
 
 /********************
  *     BSSR EJS     *
@@ -11,18 +11,24 @@ const uploader_product = require("./utils/upload-multer")("products");
 
 router_bssr.get("/", cafeController.home);
 
-router_bssr
-  .get("/signup", cafeController.getSignupMyCafe)
-  .post("/signup", cafeController.signupProcess);
+router_bssr.get("/signup", cafeController.getSignupMyCafe);
+router_bssr.post(
+  "/signup",
+  uploader_member.single("cafe_img"),
+  cafeController.signupProcess
+);
 
-router_bssr
-  .get("/login", cafeController.getLoginMyCafe)
-  .post("/login", cafeController.loginProcess);
+router_bssr.get("/login", cafeController.getLoginMyCafe);
+router_bssr.post("/login", cafeController.loginProcess);
 
 router_bssr.get("/logout", cafeController.logout);
 router_bssr.get("/check-me", cafeController.checkSessions);
 
-router_bssr.get("/products/menu", cafeController.getMyCafeData);
+router_bssr.get(
+  "/products/menu",
+  // restaurantController.validateAuthRestaurant,
+  cafeController.getMyCafeProducts
+);
 
 router_bssr.post(
   "/products/create",
@@ -36,8 +42,6 @@ router_bssr.post(
   productController.updateChosenProduct
 );
 
-module.exports = router_bssr;
-
 // router_bssr.get(
 //   "/all-cafe",
 //   cafeController.validateAdmin,
@@ -49,3 +53,5 @@ module.exports = router_bssr;
 //   cafeController.validateAdmin,
 //   cafeController.updateCafeByAdmin
 // );
+
+module.exports = router_bssr;

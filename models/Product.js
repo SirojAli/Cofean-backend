@@ -12,20 +12,6 @@ class Product {
     this.productModel = ProductModel;
   }
 
-  async getMyCafeProductsData(member) {
-    try {
-      member._id = shapeIntoMongooseObjectId(member._id);
-      const result = await this.productModel.find({
-        cafe_mb_id: member._id,
-      });
-      assert.ok(result, Definer.general_err1);
-      console.log("result >>", result);
-      return result;
-    } catch (err) {
-      throw err;
-    }
-  }
-
   async addNewProductData(data, member) {
     try {
       data.cafe_mb_id = shapeIntoMongooseObjectId(member._id);
@@ -61,91 +47,68 @@ class Product {
     }
   }
 
-  // async getAllProductsData(member, data) {
-  //   try {
-  //     const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
-  //     let match = { product_status: "PROCESS" };
-  //     if (data.cafe_mb_id) {
-  //       match["cafe_mb_id"] = shapeIntoMongooseObjectId(
-  //         data.cafe_mb_id
-  //       );
-  //       match["product_collection"] = data.product_collection;
-  //     }
-  //     const sort =
-  //       data.order === "product_price"
-  //         ? { [data.order]: 1 } //array qavs ele ning dynamic qiymatlari uchun. yani buni urniga createdat ham bolishi mumkin
-  //         : { [data.order]: -1 }; //narx boyicha sortingda 1da osish -1da kamayish boyicha
-  //     const result = await this.productModel
-  //       .aggregate([
-  //         { $match: match },
-  //         { $sort: sort },
-  //         { $skip: (data.page * 1 - 1) * data.limit }, //pageda 1 bolsa hech narsa skip bolmasin
-  //         { $limit: data.limit * 1 },
-  //         lookup_auth_member_liked(auth_mb_id),
-  //         // todo: check auth member product likes
-  //       ])
-  //       .exec();
-  //     assert.ok(result, Definer.general_err1);
-  //     return result;
-  //   } catch (err) {
-  //     throw err;
-  //   }
-  // }
+  async getMyCafeProductsData(member) {
+    try {
+      member._id = shapeIntoMongooseObjectId(member._id);
+      const result = await this.productModel.find({
+        cafe_mb_id: member._id,
+      });
+      assert.ok(result, Definer.general_err1);
+      console.log("result >>", result);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
 
-  // async getChosenProductData(member, id) {
-  //   try {
-  //     const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
-  //     id = shapeIntoMongooseObjectId(id);
+  async getAllProductsData(member, data) {
+    try {
+      const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
+      let match = { product_status: "PROCESS" };
+      if (data.cafe_mb_id) {
+        match["cafe_mb_id"] = shapeIntoMongooseObjectId(data.cafe_mb_id);
+        match["product_collection"] = data.product_collection;
+      }
+      const sort =
+        data.order === "product_price"
+          ? { [data.order]: 1 }
+          : { [data.order]: -1 };
+      const result = await this.productModel
+        .aggregate([
+          { $match: match },
+          { $sort: sort },
+          { $skip: (data.page * 1 - 1) * data.limit },
+          { $limit: data.limit * 1 },
+          lookup_auth_member_liked(auth_mb_id),
+        ])
+        .exec();
+      assert.ok(result, Definer.general_err1);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
 
-  //     if (member) {
-  //       const member_obj = new Member();
-  //       await member_obj.viewChosenItemByMember(member, id, "product");
-  //     }
+  async getChosenProductData(member, id) {
+    try {
+      const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
+      id = shapeIntoMongooseObjectId(id);
 
-  //     const result = await this.productModel
-  //       .aggregate([
-  //         { $match: { _id: id, product_status: "PROCESS" } },
-  //         // todo: check auth member product likes
-  //       ])
-  //       .exec();
+      if (member) {
+        const member_obj = new Member();
+        await member_obj.viewChosenItemByMember(member, id, "product");
+      }
 
-  //     assert.ok(result, Definer.general_err1);
-  //     return result[0];
-  //   } catch (err) {
-  //     throw err;
-  //   }
-  // }
+      const result = await this.productModel
+        .aggregate([{ $match: { _id: id, product_status: "PROCESS" } }])
+        .exec();
 
-  // async getAllProductsDataResto(member) {
-  //   try {
-  //     member._id = shapeIntoMongooseObjectId(member._id);
-  //     const result = await this.productModel.find({
-  //       cafe_mb_id: member._id,
-  //     });
-  //     assert.ok(result, Definer.general_err1);
-  //     console.log(result);
-  //     return result;
-  //   } catch (err) {
-  //     throw err;
-  //   }
-  // }
-
-  // async updateChosenProductData(id, updated_data, mb_id) {
-  //   try {
-  //     id = shapeIntoMongooseObjectId(id);
-  //     const result = await this.productModel
-  //       .findOneAndUpdate({ _id: id, cafe_mb_id: mb_id }, updated_data, {
-  //         runValidators: true,
-  //         lean: true,
-  //         returnDocument: "after",
-  //       })
-  //       .exec();
-  //     assert.ok(result, Definer.general_err1);
-  //     return result;
-  //   } catch (err) {
-  //     throw err;
-  //   }
-  // }
+      assert.ok(result, Definer.general_err1);
+      return result[0];
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = Product;
