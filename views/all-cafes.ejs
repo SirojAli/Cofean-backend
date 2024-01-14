@@ -28,7 +28,7 @@
                     <table class="table table-hover table-sm">
                         <thead class="thead-light">
                             <tr class="thead-light">
-                                <th scope="col">T/r</th>
+                                <th scope="col"></th>
                                 <th scope="col">Cafe Name</th>
                                 <th scope="col">Cafe Email</th>
                                 <th scope="col">Cafe TOP</th>
@@ -96,7 +96,7 @@
             const mb_status = $(`#${id}.mb_status`).val();
             console.log("mb_status:", mb_status);
 
-            axios.post("/cafe/all-cafe/edit", {id: id, mb_status: mb_status})
+            axios.post("/cafe/all-cafes/edit", {id: id, mb_status: mb_status})
             .then(response => {
             const result = response.data;
             // console.log(result);

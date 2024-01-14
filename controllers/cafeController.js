@@ -136,7 +136,7 @@ cafeController.validateAdmin = (req, res, next) => {
     next();
   } else {
     const html = `<script>
-            alert("Admin page: Permission denied!");
+            alert("Admin Page: Permission denied!");
             window.location.replace('/cafe');
           </script>`;
     res.end(html);

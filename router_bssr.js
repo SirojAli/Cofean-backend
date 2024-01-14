@@ -43,7 +43,7 @@ router_bssr.post(
 );
 
 router_bssr.get(
-  "/all-cafe",
+  "/all-cafes",
   cafeController.validateAdmin,
   cafeController.getAllCafes
 );
