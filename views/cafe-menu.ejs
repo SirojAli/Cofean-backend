@@ -5,25 +5,25 @@
     <div class="group_name">
       <ul class="nav justify-content-center">
         <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link active" href="/resto">Home</a>
+          <a class="nav-link active" href="/cafe">Home</a>
         </li>
         <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link" href="/resto/products/menu">MyResto</a>
+          <a class="nav-link" href="/cafe/products/menu">MyCafe</a>
         </li>
         <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link active" href="/resto/logout">Logout</a>
+          <a class="nav-link active" href="/cafe/logout">Logout</a>
         </li>
       </ul>
     </div>
-    <div class="restaurant_menu_frame">
-      <div class="restaurant_container">
+    <div class="cafe_menu_frame">
+      <div class="cafe_container">
         <div class="dishs_table">
           <span class="new_dish_txt">
-            <%= member.mb_nick.toUpperCase() %> Product Menu
+            <%= member.mb_nick.toUpperCase() %> Cafe Menu
           </span>
           <table class="table table-bordered table-hover">
             <thead class="thead-light">
-              <th scope="col">T/r</th>
+              <th scope="col"></th>
               <th scope="col">Product Name</th>
               <th scope="col">Product Type</th>
               <th scope="col">Product Size</th>
@@ -31,7 +31,7 @@
               <th scope="col">Product Left Count</th>
               <th scope="col">Product Status</th>
             </thead>
-            <% restaurant_data.map((value, key) => { %>
+            <% cafe_data.map((value, key) => { %>
             <tbody style="background-color: #ffffff">
               <td><%= key + 1 %></td>
               <td><%= value.product_name%></td>
@@ -41,7 +41,7 @@
                 value.product_volume : value.product_size %>
               </td>
               <td><%= value.product_price%></td>
-              <td><%= value.product_left_cnt%></td>
+              <td><%= value.product_left_count%></td>
               <td>
                 <select class="spec_select new_product_status" id="<%= value._id %>">
                   <option value="PROCESS" <%= value.product_status === 'PROCESS' ? 'selected' : '' %> >PROCESS</option>
@@ -57,7 +57,7 @@
         </div>
 
         <form onsubmit="return validateForm()" 
-        action="/resto/products/create" method="POST" class="dish_container"
+        action="/cafe/products/create" method="POST" class="dish_container"
         enctype="multipart/form-data"
         >
           <div class="long_input long_input_product">
@@ -72,38 +72,35 @@
           </div>
           <div class="half_input_frame">
             <div class="half_input">
-              <label for="product_price">Product price</label>
-              <input id="product_price" type="number" placeholder="Product price" name="product_price" class="product_price">
+              <label for="product_price">Product Price</label>
+              <input id="product_price" type="number" placeholder="Product Price" name="product_price" class="product_price">
             </div>
             <div class="half_input">
-              <label for="product_left_cnt">Product Left Count</label>
-              <input id="product_left_cnt" type="number" placeholder="Product Left Count" name="product_left_cnt" class="product_left_cnt">
+              <label for="product_left_count">Product Left Count</label>
+              <input id="product_left_count" type="number" placeholder="Product Left Count" name="product_left_count" class="product_left_count">
             </div>
           </div>
           <div class="half_input_frame">
            <div class="half_input">
               <label for="">Product Types</label>
               <select class="product_collection" name="product_collection">
-                <option value="beverage" select>Beverage</option>
                 <option value="food">Food</option>
+                <option value="beverage" select>Beverage</option>
                 <option value="goods">Goods</option>
               </select>
            </div>
            <div class="half_input" id="product_size">
-            <label >Taom Hajmi</label>
+            <label >Product Size</label>
             <select class="product_size" name="product_size">
-              <option value="small">Small</option>
-              <option value="medium" selected>Medium</option>
-              <option value="large">Large</option>
               <option value="default">Default</option>
             </select>
           </div>
           <div class="half_input" id="product_volume" style="display: none;"> 
-            <label >Beverage Size</label>
+            <label >Product Size</label>
             <select class="product_volume" name="product_volume">
-              <option value="240" selected>240 ml </option>
-              <option value="355" >355 ml </option>
-              <option value="473">473 ml </option>
+              <option value="240" selected>240 ml (small) </option>
+              <option value="355" >355 ml (medium) </option>
+              <option value="473">473 ml (large) </option>
             </select>
            </div>
           </div>
@@ -114,7 +111,7 @@
           </div>
 
           <div class="img_frame">
-            <label for="">Taom Rasmlari</label>
+            <label for="">Product Pictures</label>
             <div class="media_frame">
               <div class="upload_img_box">
                 <img src="/images/upload.svg" class="1" id="image_section_1" alt="dish">
@@ -136,17 +133,14 @@
                 <img src="/images/upload.svg" class="5" id="image_section_5" alt="dish">
                 <input type="file" name="product_images" class="image_five" id="file" onchange="previewFileHandler(this, 5)">
               </div>
-              <input type="text" value="<%= member._id%>" name="restaurant_id" class="restaurant_id" hidden>
+              <input type="text" value="<%= member._id%>" name="cafe_id" class="cafe_id" hidden>
             </div>
           </div>
           <div class="long_input" style="align-items: flex-end; margin-bottom: 25px">
             <button class="btn btn-primary" id="create_product" type="submit"> Submit</button>
           </div>
 
-        </form>
-
-              <!-- Add Food Form End -->
-              
+        </form>             
       </div>
     </div>
   </div>
@@ -159,7 +153,7 @@
 
       $(".product_collection").on("change", ()=>{
         const selected_value = $(".product_collection").val();
-        if(selected_value === 'drink'){
+        if(selected_value === 'beverage'){
           $("#product_volume").show();
           $("#product_size").hide();
         }else{
@@ -175,7 +169,7 @@
         const id = e.target.id;
         const product_status = $(`#${id}.new_product_status`).val();
         try{
-          const response = await axios.post(`/resto/products/edit/${id}`, 
+          const response = await axios.post(`/cafe/products/edit/${id}`, 
           {id: id, product_status: product_status});
           // kutish bo'ladi
           const result = response.data;
@@ -187,26 +181,26 @@
             alert(result.message)
           }
         }catch(err){
-          console.log("updateChosenproduct", err);
+          console.log("updateChosenProduct", err);
         }
       })
 
     })
 
     function validateForm(){
-      const restaurant_mb_id = $(".restaurant_mb_id").val(),
+      const cafe_mb_id = $(".cafe_mb_id").val(),
         product_name = $(".product_name").val(),
         product_price = $(".product_price").val(),
-        product_left_cnt = $(".product_left_cnt").val(),
+        product_left_count = $(".product_left_count").val(),
         product_collection = $(".product_collection").val(),
         product_description = $(".product_description").val(),
         product_status = $(".product_status").val();
 
       if(
-        restaurant_mb_id == '' ||
+        cafe_mb_id == '' ||
         product_name == '' ||
         product_price == '' ||
-        product_left_cnt == '' ||
+        product_left_count == '' ||
         product_collection == '' ||
         product_description == '' ||
         product_status == ''

@@ -29,6 +29,7 @@ class Member {
         throw new Error(Definer.mongo_valid_err1);
       }
       result.mb_password = "";
+      console.log("signdata--------", result);
       return result;
     } catch (err) {
       throw err;

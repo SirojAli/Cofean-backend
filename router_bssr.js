@@ -26,7 +26,7 @@ router_bssr.get("/check-me", cafeController.checkSessions);
 
 router_bssr.get(
   "/products/menu",
-  // restaurantController.validateAuthRestaurant,
+  cafeController.validateAuthCafe,
   cafeController.getMyCafeProducts
 );
 
@@ -42,16 +42,16 @@ router_bssr.post(
   productController.updateChosenProduct
 );
 
-// router_bssr.get(
-//   "/all-cafe",
-//   cafeController.validateAdmin,
-//   cafeController.getAllCafes
-// );
+router_bssr.get(
+  "/all-cafe",
+  cafeController.validateAdmin,
+  cafeController.getAllCafes
+);
 
-// router_bssr.post(
-//   "/all-cafes/edit",
-//   cafeController.validateAdmin,
-//   cafeController.updateCafeByAdmin
-// );
+router_bssr.post(
+  "/all-cafes/edit",
+  cafeController.validateAdmin,
+  cafeController.updateCafeByAdmin
+);
 
 module.exports = router_bssr;

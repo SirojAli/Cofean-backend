@@ -32,6 +32,7 @@ cafeController.signupProcess = async (req, res) => {
     assert.ok(result, Definer.general_err1);
 
     req.session.member = result;
+    console.log("session:::", result);
     res.redirect("/cafe/products/menu");
   } catch (err) {
     res.json({ state: "failed", message: err.message });
@@ -116,7 +117,7 @@ cafeController.validateAuthCafe = (req, res, next) => {
 cafeController.getMyCafeProducts = async (req, res) => {
   try {
     console.log("GET: cont/getMyCafeProducts");
-
+    console.log(req.member);
     const product = new Product();
     // const data = await product.getMyCafeProductsData(req.locals.member);
     const data = await product.getMyCafeProductsData(req.member);

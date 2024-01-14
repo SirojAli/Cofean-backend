@@ -46,7 +46,7 @@ const productSchema = new mongoose.Schema(
     // for coffee, tea, smoothies
     product_volume: {
       type: Number,
-      default: 1,
+      default: 355,
       required: function () {
         return this.product_collection === "beverage";
       },
@@ -59,7 +59,7 @@ const productSchema = new mongoose.Schema(
     product_size: {
       type: String,
       required: function () {
-        const sized_list = ["food", "goods"];
+        const sized_list = ["food", "card"];
         return sized_list.includes(this.product_collection);
       },
       default: "default",
