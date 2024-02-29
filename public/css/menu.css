@@ -227,12 +227,51 @@ input:checked + .slider:before {
   color: #4f547b;
 }
 
+.desc_upload {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+
+  justify-content: space-between;
+}
+
+.btn_submit {
+  position: relative;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  flex-direction: row;
+  /* border: 2px solid red; */
+  align-items: center;
+  /* margin-bottom: 25px; */
+  justify-content: center;
+}
+
+.btn_submit #create_product {
+  width: 120px;
+  height: 45px;
+  align-items: center;
+  border: 1px solid white;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-left: 50px;
+
+  font-family: "Source Serif Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 35px;
+  color: #ffffff;
+}
+
 .long_input textarea {
   position: relative;
   margin-top: 10px;
   padding-left: 20px;
-  width: 100%;
-  height: 200px;
+  width: 98%;
+  height: 220px;
   border: none;
 
   background: #f7f7f7;
@@ -266,21 +305,22 @@ input:checked + .slider:before {
 
 .media_frame {
   position: relative;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   width: 100%;
   height: 250px;
 
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 }
 
 .media_frame .upload_img_box {
   position: relative;
-  width: 19%;
-  height: 100%;
+  width: 100%;
+  height: 80%;
 
-  display: flex;
+  display: flex-end;
   justify-content: center;
   align-items: center;
   border-radius: 10px;

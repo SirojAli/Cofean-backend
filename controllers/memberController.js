@@ -10,13 +10,16 @@ memberController.signup = async (req, res) => {
     const data = req.body,
       member = new Member(),
       new_member = await member.signupData(data);
+    // console.log("result>>>", new_member);
 
-    // // TODO: AUTHENTICATE BASED ON JWT (json web token)
-    // const token = memberController.createToken(new_member);
-    // res.cookie("access_token", token, {
-    //   maxAge: 6 * 3600 * 1000,
-    //   httpOnly: false,
-    // });
+    // TODO: AUTHENTICATE BASED ON JWT (json web token)
+    const token = memberController.createToken(new_member);
+    // console.log("token>>>", token);
+
+    res.cookie("access_token", token, {
+      maxAge: 6 * 3600 * 1000,
+      httpOnly: false,
+    });
 
     res.json({ state: "succeed", data: new_member });
   } catch (err) {
@@ -28,23 +31,21 @@ memberController.signup = async (req, res) => {
 memberController.login = async (req, res) => {
   try {
     console.log("POST: cont/login");
-    const data = req.body;
-    const member = new Member();
-    const new_member = await member.loginData(data);
+    const data = req.body,
+      member = new Member(),
+      result = await member.loginData(data);
+    // console.log("result>>>", result);
 
-    res.json({ state: "succeed", data: new_member });
+    // TODO: AUTHENTICATE BASED ON JWT (json web token)
+    const token = memberController.createToken(result);
+    // console.log("token>>>", token);
 
-    // console.log("POST: cont/login");
-    // const data = req.body,
-    //   member = new Member(),
-    //   result = await member.loginData(data);
-    // // TODO: AUTHENTICATE BASED ON JWT (json web token)
-    // const token = memberController.createToken(result);
-    // res.cookie("access_token", token, {
-    //   maxAge: 6 * 3600 * 1000,
-    //   httpOnly: false,
-    // });
-    // res.json({ state: "succeed", data: result });
+    res.cookie("access_token", token, {
+      maxAge: 6 * 3600 * 1000,
+      httpOnly: false,
+    });
+
+    res.json({ state: "succeed", data: result });
   } catch (err) {
     res.json({ state: "failed", message: err.message });
     console.log(`ERROR, cont/login, ${err.message} `);
