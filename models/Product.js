@@ -71,19 +71,22 @@ class Product {
         match["cafe_mb_id"] = shapeIntoMongooseObjectId(data.cafe_mb_id);
         match["product_collection"] = data.product_collection;
       }
+
       const sort =
         data.order === "product_price"
-          ? { [data.order]: 1 }
-          : { [data.order]: -1 };
+          ? { [data.order]: 1 } // produc_price uchun
+          : { [data.order]: -1 }; // createdAt uchun
+
       const result = await this.productModel
         .aggregate([
           { $match: match },
           { $sort: sort },
           { $skip: (data.page * 1 - 1) * data.limit },
           { $limit: data.limit * 1 },
-          lookup_auth_member_liked(auth_mb_id),
+          lookup_auth_member_liked(auth_mb_id), // auth-member like product
         ])
         .exec();
+
       assert.ok(result, Definer.general_err1);
       return result;
     } catch (err) {

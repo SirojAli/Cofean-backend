@@ -1,6 +1,11 @@
 const express = require("express");
 const router = express.Router();
+// const cafeController = require("./controllers/cafeController");
 const memberController = require("./controllers/memberController");
+const productController = require("./controllers/productController");
+// const followController = require("./controllers/followController");
+// const communityController = require("./controllers/communityController");
+// const orderController = require("./controllers/orderController");
 
 /********************
  *     REST API     *
@@ -18,6 +23,12 @@ router.get(
 );
 
 // Product related routers
+router.post(
+  "/products",
+  memberController.retrieveAuthMember,
+  productController.getAllProducts
+);
+
 // Cafe related routers
 // Order related routers
 // Community related routers
