@@ -1,9 +1,9 @@
 // MEMBER SERVICE MODEL (file nomi js shu fileni class sifatida qabul qilishi uchun bosh harfda yozildi)
-// const {
-//   shapeIntoMongooseObjectId,
-//   lookup_auth_member_following,
-//   lookup_auth_member_liked,
-// } = require("../lib/config");
+const {
+  shapeIntoMongooseObjectId,
+  lookup_auth_member_following,
+  lookup_auth_member_liked,
+} = require("../lib/config");
 
 const Definer = require("../lib/mistake");
 const MemberModel = require("../schema/member.model");
@@ -63,22 +63,22 @@ class Member {
     try {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
       id = shapeIntoMongooseObjectId(id);
-      console.log("member: :", member);
+      console.log("member>>>", member);
 
       let aggregationQuery = [
         { $match: { _id: id, mb_status: "ACTIVE" } },
-        { $unset: "mb_password" },
+        { $unset: "mb_password" }, // mb_password ni ko'rsatmaslik uchun
       ];
 
-      if (member) {
-        await this.viewChosenItemByMember(member, id, "member");
+      // if (member) {
+      //   await this.viewChosenItemByMember(member, id, "member");
 
-        // todo: check auth member liked the chosen member
-        aggregationQuery.push(lookup_auth_member_liked(auth_mb_id));
-        aggregationQuery.push(
-          lookup_auth_member_following(auth_mb_id, "members")
-        );
-      }
+      //   // todo: check auth member liked the chosen member
+      //   aggregationQuery.push(lookup_auth_member_liked(auth_mb_id));
+      //   aggregationQuery.push(
+      //     lookup_auth_member_following(auth_mb_id, "members")
+      //   );
+      // }
 
       const result = await this.memberModel.aggregate(aggregationQuery).exec();
 
@@ -93,11 +93,11 @@ class Member {
     try {
       view_ref_id = shapeIntoMongooseObjectId(view_ref_id);
       const mb_id = shapeIntoMongooseObjectId(member._id);
-      const view = new View(mb_id);
 
       // validation needed
+      const view = new View(mb_id);
       const isValid = await view.validateChosenTarget(view_ref_id, group_type);
-      console.log("isValid:::", isValid);
+      console.log("isValid>>>", isValid);
       assert.ok(isValid, Definer.general_err2);
 
       // logged user has seen target before
