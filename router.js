@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-// const cafeController = require("./controllers/cafeController");
+const cafeController = require("./controllers/cafeController");
 const memberController = require("./controllers/memberController");
 const productController = require("./controllers/productController");
 // const followController = require("./controllers/followController");
@@ -35,6 +35,12 @@ router.get(
 );
 
 // Cafe related routers
+router.get(
+  "/cafes",
+  memberController.retrieveAuthMember,
+  cafeController.getCafes
+);
+
 // Order related routers
 // Community related routers
 // Following related routers

@@ -5,6 +5,40 @@ const Product = require("../models/Product");
 const Cafe = require("../models/Cafe");
 let cafeController = module.exports;
 
+cafeController.getCafes = async (req, res) => {
+  try {
+    console.log("GET: cont/getCafes");
+    const data = req.query;
+    // console.log("query data:::", data);
+    // res.send("DONE!");
+    const cafe = new Cafe();
+    const result = await cafe.getCafesData(req.member, data);
+    res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log(`ERROR, cont/getCafes, ${err.message} `);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
+cafeController.getChosenCafe = async (req, res) => {
+  try {
+    console.log("GET: cont/getChosenCafe");
+    const id = req.params.id;
+    // console.log("id:::", id);
+
+    const cafe = new Cafe();
+    const result = await cafe.getChosenCafeData(req.member, id);
+    res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log(`ERROR, cont/getChosenCafe, ${err.message} `);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
+/********************************************
+ *        BSSR RELATED METHODS              *
+ ********************************************/
+
 cafeController.home = async (req, res) => {
   try {
     console.log("GET: cont/home");
@@ -171,35 +205,5 @@ cafeController.updateCafeByAdmin = async (req, res) => {
   } catch (err) {
     console.log(`ERROR, cont/updateCafeByAdmin, ${err.message} `);
     res.json({ state: "failed", message: err.message });
-  }
-};
-
-cafeController.getCafes = async (req, res) => {
-  try {
-    console.log("GET: cont/getCafes");
-    const data = req.query;
-    // console.log("query data:::", data);
-    // res.send("DONE!");
-    const cafe = new Cafe();
-    const result = await cafe.getCafesData(req.member, data);
-    res.json({ state: "success", data: result });
-  } catch (err) {
-    console.log(`ERROR, cont/getCafes, ${err.message} `);
-    res.json({ state: "fail", message: err.message });
-  }
-};
-
-cafeController.getChosenCafe = async (req, res) => {
-  try {
-    console.log("GET: cont/getChosenCafe");
-    const id = req.params.id;
-    // console.log("id:::", id);
-
-    const cafe = new Cafe();
-    const result = await cafe.getChosenCafeData(req.member, id);
-    res.json({ state: "success", data: result });
-  } catch (err) {
-    console.log(`ERROR, cont/getChosenCafe, ${err.message} `);
-    res.json({ state: "fail", message: err.message });
   }
 };
