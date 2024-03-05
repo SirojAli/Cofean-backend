@@ -24,7 +24,7 @@ cafeController.getChosenCafe = async (req, res) => {
   try {
     console.log("GET: cont/getChosenCafe");
     const id = req.params.id;
-    // console.log("id:::", id);
+    // console.log("id>>>", id);
 
     const cafe = new Cafe();
     const result = await cafe.getChosenCafeData(req.member, id);

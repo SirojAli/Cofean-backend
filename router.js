@@ -40,6 +40,11 @@ router.get(
   memberController.retrieveAuthMember,
   cafeController.getCafes
 );
+router.get(
+  "/cafes/:id",
+  memberController.retrieveAuthMember,
+  cafeController.getChosenCafe
+);
 
 // Order related routers
 // Community related routers
