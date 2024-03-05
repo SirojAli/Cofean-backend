@@ -48,7 +48,7 @@ const productSchema = new mongoose.Schema(
       type: Number,
       default: 355,
       required: function () {
-        return this.product_collection === "beverage";
+        return ["coffee", "smoothie", "tea"].includes(this.product_collection);
       },
       enum: {
         values: product_volume_enums,

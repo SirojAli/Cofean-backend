@@ -37,7 +37,7 @@
               <td><%= value.product_name%></td>
               <td><%= value.product_collection%></td>
               <td>
-                <%= value.product_collection === 'beverage'? 
+                <%= value.product_collection === 'coffee'? 
                 value.product_volume : value.product_size %>
               </td>
               <td><%= value.product_price%></td>
@@ -85,7 +85,9 @@
               <label for="">Product Types</label>
               <select class="product_collection" name="product_collection">
                 <option value="food">Food</option>
-                <option value="beverage" select>Beverage</option>
+                <option value="coffee" select>Coffee</option>
+                <option value="smoothie">Smoothie</option>
+                <option value="tea">Tea</option>
                 <option value="goods">Goods</option>
               </select>
            </div>
@@ -142,7 +144,7 @@
 
       $(".product_collection").on("change", ()=>{
         const selected_value = $(".product_collection").val();
-        if(selected_value === 'beverage'){
+        if (['coffee', 'smoothie', 'tea'].includes(selected_value)) {
           $("#product_volume").show();
           $("#product_size").hide();
         }else{
