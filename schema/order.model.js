@@ -9,7 +9,7 @@ const orderSchema = new mongoose.Schema(
     order_status: {
       type: String,
       required: false,
-      default: "PAUSED",
+      default: "PROCESS",
       enum: {
         values: order_status_enums,
         message: "{VALUES} is not among permitted values",
