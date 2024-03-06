@@ -57,11 +57,11 @@ router.get(
   memberController.retrieveAuthMember,
   orderController.getMyOrders
 );
-// router.post(
-//   "/orders/edit",
-//   memberController.retrieveAuthMember,
-//   orderController.editChosenOrder
-// );
+router.post(
+  "/orders/edit",
+  memberController.retrieveAuthMember,
+  orderController.editChosenOrder
+);
 
 // // Community related routers
 // router.post(
