@@ -22,7 +22,7 @@ orderController.createOrder = async (req, res) => {
 orderController.getMyOrders = async (req, res) => {
   try {
     console.log("GET: cont/getMyOrders");
-    assert.ok(req.member, Definer.auth_err5);
+    assert.ok(req.member, Definer.auth_err1);
 
     const order = new Order();
     const result = await order.getMyOrdersData(req.member, req.query);
@@ -36,7 +36,7 @@ orderController.getMyOrders = async (req, res) => {
 orderController.editChosenOrder = async (req, res) => {
   try {
     console.log("POST: cont/editChosenOrder");
-    assert.ok(req.member, Definer.auth_err5);
+    assert.ok(req.member, Definer.auth_err1);
 
     const order = new Order();
     const result = await order.editChosenOrderData(req.member, req.body);
