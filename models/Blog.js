@@ -6,12 +6,12 @@ const {
 const Definer = require("../lib/mistake");
 const assert = require("assert");
 
-const BoArticleModel = require("../schema/board_article.model");
+const BlogArticleModel = require("../schema/blog.model");
 const Member = require("./Member");
 
-class Community {
+class Blog {
   constructor() {
-    this.boArticleModel = BoArticleModel;
+    this.blogArticleModel = BlogArticleModel;
   }
 
   async createArticleData(member, data) {
@@ -27,7 +27,7 @@ class Community {
 
   async saveArticleData(data) {
     try {
-      const article = new this.boArticleModel(data);
+      const article = new this.blogArticleModel(data);
       return await article.save();
     } catch (mongo_err) {
       console.log("mongo_err>>>", mongo_err);
@@ -42,9 +42,9 @@ class Community {
       const page = inquiry["page"] ? inquiry["page"] * 1 : 1;
       const limit = inquiry["limit"] ? inquiry["limit"] * 1 : 5;
 
-      const result = await this.boArticleModel
+      const result = await this.blogArticleModel
         .aggregate([
-          { $match: { mb_id: mb_id, art_status: "active" } },
+          { $match: { mb_id: mb_id, blog_status: "active" } },
           { $sort: { createdAt: -1 } },
           { $skip: (page - 1) * limit },
           { $limit: limit },
@@ -73,9 +73,9 @@ class Community {
     try {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
       let matches =
-        inquiry.bo_id === "all"
-          ? { bo_id: { $in: board_id_enum_list }, art_status: "active" }
-          : { bo_id: inquiry.bo_id, art_status: "active" };
+        inquiry.board_id === "all"
+          ? { board_id: { $in: board_id_enum_list }, blog_status: "active" }
+          : { board_id: inquiry.board_id, blog_status: "active" };
       inquiry.limit *= 1;
       inquiry.page *= 1;
 
@@ -83,7 +83,7 @@ class Community {
         ? { [`${inquiry.order}`]: -1 }
         : { createdAt: -1 };
 
-      const result = await this.boArticleModel
+      const result = await this.blogArticleModel
         .aggregate([
           { $match: matches },
           { $sort: sort },
@@ -111,17 +111,19 @@ class Community {
     }
   }
 
-  async getChosenArticleData(member, art_id) {
+  async getChosenArticleData(member, blog_id) {
     try {
-      art_id = shapeIntoMongooseObjectId(art_id);
+      blog_id = shapeIntoMongooseObjectId(blog_id);
 
-      // increase art_views when user has not seen before
+      // increase blog_views when user has not seen before
       if (member) {
         const member_obj = new Member();
-        await member_obj.viewChosenItemByMember(member, art_id, "community");
+        await member_obj.viewChosenItemByMember(member, blog_id, "blog");
       }
 
-      const result = await this.boArticleModel.findById({ _id: art_id }).exec();
+      const result = await this.blogArticleModel
+        .findById({ _id: blog_id })
+        .exec();
       assert.ok(result, Definer.article_err3);
 
       return result;
@@ -131,4 +133,4 @@ class Community {
   }
 }
 
-module.exports = Community;
+module.exports = Blog;

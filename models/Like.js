@@ -1,7 +1,7 @@
 // const MemberModel = require("../schema/member.model");
 // const LikeModel = require("../schema/like.model");
 // const ProductModel = require("../schema/product.model");
-// const BoArticleModel = require("../schema/board_article.model");
+// const BlogArticleModel = require("../schema/board_article.model");
 // const Definer = require("../lib/mistake");
 
 // class Like {
@@ -9,7 +9,7 @@
 //     this.likeModel = LikeModel;
 //     this.memberModel = MemberModel;
 //     this.productModel = ProductModel;
-//     this.boArticleModel = BoArticleModel;
+//     this.blogArticleModel = BlogArticleModel;
 //     this.mb_id = mb_id;
 //   }
 
@@ -35,12 +35,12 @@
 //             .exec();
 //           break;
 
-//         case "community":
+//         case "blog":
 //         default:
-//           result = await this.boArticleModel
+//           result = await this.blogArticleModel
 //             .findOne({
 //               _id: id,
-//               art_status: "active",
+//               blog_status: "active",
 //             })
 //             .exec();
 //           break;
@@ -124,11 +124,11 @@
 //             .exec();
 //           break;
 
-//         case "community":
-//           await this.boArticleModel
+//         case "blog":
+//           await this.blogArticleModel
 //             .findByIdAndUpdate(
 //               { _id: like_ref_id },
-//               { $inc: { art_likes: modifier } }
+//               { $inc: { blog_likes: modifier } }
 //             )
 //             .exec();
 //           break;

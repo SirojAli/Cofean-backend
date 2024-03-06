@@ -4,8 +4,11 @@ const cafeController = require("./controllers/cafeController");
 const memberController = require("./controllers/memberController");
 const productController = require("./controllers/productController");
 // const followController = require("./controllers/followController");
-// const communityController = require("./controllers/communityController");
+const blogController = require("./controllers/blogController");
 const orderController = require("./controllers/orderController");
+
+const uploader_blog = require("./utils/upload-multer")("blog");
+const uploader_member = require("./utils/upload-multer")("members");
 
 /********************
  *     REST API     *
@@ -63,32 +66,32 @@ router.post(
   orderController.editChosenOrder
 );
 
-// // Community related routers
-// router.post(
-//   "/community/image",
-//   uploader_community.single("community_image"),
-//   communityController.imageInsertion
-// );
-// router.post(
-//   "/community/create",
-//   memberController.retrieveAuthMember,
-//   communityController.createArticle
-// );
-// router.get(
-//   "/community/articles",
-//   memberController.retrieveAuthMember,
-//   communityController.getMemberArticles
-// );
-// router.get(
-//   "/community/target",
-//   memberController.retrieveAuthMember,
-//   communityController.getArticles
-// );
-// router.get(
-//   "/community/single-article/:art_id",
-//   memberController.retrieveAuthMember,
-//   communityController.getChosenArticle
-// );
+// Blog related routers
+router.post(
+  "/blog/image",
+  uploader_blog.single("blog_image"),
+  blogController.imageInsertion
+);
+router.post(
+  "/blog/create",
+  memberController.retrieveAuthMember,
+  blogController.createArticle
+);
+router.get(
+  "/blog/articles",
+  memberController.retrieveAuthMember,
+  blogController.getMemberArticles
+);
+router.get(
+  "/blog/target",
+  memberController.retrieveAuthMember,
+  blogController.getArticles
+);
+router.get(
+  "/blog/single-article/:blog_id",
+  memberController.retrieveAuthMember,
+  blogController.getChosenArticle
+);
 
 // // Following related routers
 // router.post(

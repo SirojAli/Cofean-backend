@@ -1,9 +1,9 @@
-const Community = require("../models/Community");
-let communityController = module.exports;
+const Blog = require("../models/Blog");
+let blogController = module.exports;
 const assert = require("assert");
 const Definer = require("../lib/mistake");
 
-communityController.imageInsertion = async (req, res) => {
+blogController.imageInsertion = async (req, res) => {
   try {
     console.log("POST: cont/imageInsertion");
     assert.ok(req.file, Definer.general_err3);
@@ -16,13 +16,13 @@ communityController.imageInsertion = async (req, res) => {
   }
 };
 
-communityController.createArticle = async (req, res) => {
+blogController.createArticle = async (req, res) => {
   try {
     console.log("POST: cont/createArticle");
 
-    // community service model
-    const community = new Community();
-    const result = await community.createArticleData(req.member, req.body);
+    // blog service model
+    const blog = new Blog();
+    const result = await blog.createArticleData(req.member, req.body);
     assert.ok(result, Definer.general_err1);
 
     res.json({ state: "success", data: result });
@@ -32,16 +32,16 @@ communityController.createArticle = async (req, res) => {
   }
 };
 
-communityController.getMemberArticles = async (req, res) => {
+blogController.getMemberArticles = async (req, res) => {
   try {
     console.log("GET: cont/getMemberArticles");
-    const community = new Community();
+    const blog = new Blog();
 
     const mb_id =
       req.query.mb_id !== "none" ? req.query.mb_id : req.member?._id;
     assert.ok(mb_id, Definer.article_err1);
 
-    const result = await community.getMemberArticlesData(
+    const result = await blog.getMemberArticlesData(
       req.member,
       mb_id,
       req.query
@@ -54,13 +54,13 @@ communityController.getMemberArticles = async (req, res) => {
   }
 };
 
-communityController.getArticles = async (req, res) => {
+blogController.getArticles = async (req, res) => {
   try {
     console.log("GET: cont/getArticles");
     // console.log("query>>>", req.query);
-    const community = new Community();
+    const blog = new Blog();
 
-    const result = await community.getArticlesData(req.member, req.query);
+    const result = await blog.getArticlesData(req.member, req.query);
     res.json({ state: "success", data: result });
   } catch (err) {
     console.log(`ERROR, cont/getArticles, ${err.message} `);
@@ -68,15 +68,15 @@ communityController.getArticles = async (req, res) => {
   }
 };
 
-communityController.getChosenArticle = async (req, res) => {
+blogController.getChosenArticle = async (req, res) => {
   try {
     console.log("GET: cont/getChosenArticle");
 
-    const art_id = req.params.art_id;
-    // console.log("art_id>>>", art_id);
-    const community = new Community();
+    const blog_id = req.params.blog_id;
+    // console.log("blog_id>>>", blog_id);
+    const blog = new Blog();
 
-    const result = await community.getChosenArticleData(req.member, art_id);
+    const result = await blog.getChosenArticleData(req.member, blog_id);
     res.json({ state: "success", data: result });
   } catch (err) {
     console.log(`ERROR, cont/getChosenArticle, ${err.message} `);

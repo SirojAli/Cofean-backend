@@ -10,7 +10,7 @@ const likeSchema = new mongoose.Schema(
       required: true,
       enum: { values: like_view_enums },
     },
-    bo_id: {
+    board_id: {
       type: String,
       required: false,
       enum: {
