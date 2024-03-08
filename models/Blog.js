@@ -57,7 +57,7 @@ class Blog {
             },
           },
           { $unwind: "$member_data" },
-          lookup_auth_member_liked(auth_mb_id),
+          // lookup_auth_member_liked(auth_mb_id),
           // todo: check auth liked the chosen target
         ])
         .exec();
