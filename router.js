@@ -75,25 +75,25 @@ router.post(
 router.post(
   "/blog/create",
   memberController.retrieveAuthMember,
-  blogController.createArticle
+  blogController.createPost
 );
 router.get(
-  "/blog/articles",
+  "/blog/posts",
   memberController.retrieveAuthMember,
-  blogController.getMemberArticles
+  blogController.getMemberPosts
 );
 router.get(
   "/blog/target",
   memberController.retrieveAuthMember,
-  blogController.getArticles
+  blogController.getPosts
 );
 router.get(
-  "/blog/single-article/:blog_id",
+  "/blog/single-post/:post_id",
   memberController.retrieveAuthMember,
-  blogController.getChosenArticle
+  blogController.getChosenPost
 );
 
-// // Following related routers
+// Following related routers
 // router.post(
 //   "/follow/subscribe",
 //   memberController.retrieveAuthMember,
@@ -108,8 +108,6 @@ router.get(
 // router.get(
 //   "/follow/followers",
 //   memberController.retrieveAuthMember,
-//   // yuqoridan farqli o'laroq, kim req. qilayotgani kk. menga follower bo'lgan
-//   // userga, bu authenticated user follow bo'lganmi, yo'qmi?
 //   followController.getMemberFollowers
 // );
 

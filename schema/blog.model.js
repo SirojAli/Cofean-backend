@@ -2,17 +2,17 @@ const mongoose = require("mongoose");
 const { board_id_enums, blog_status_enums } = require("../lib/config");
 const Schema = mongoose.Schema;
 
-const blogArticleSchema = new mongoose.Schema(
+const blogPostSchema = new mongoose.Schema(
   {
-    blog_subject: {
+    post_subject: {
       type: String,
       required: true,
     },
-    blog_content: {
+    post_content: {
       type: String,
       required: true,
     },
-    blog_image: {
+    post_image: {
       type: String,
       required: false, // change true
     },
@@ -24,7 +24,7 @@ const blogArticleSchema = new mongoose.Schema(
         message: "{VALUES} is not among permitted values",
       },
     },
-    blog_status: {
+    post_status: {
       type: String,
       required: false,
       default: "active",
@@ -33,12 +33,12 @@ const blogArticleSchema = new mongoose.Schema(
         message: "{VALUES} is not among permitted values",
       },
     },
-    blog_likes: {
+    post_likes: {
       type: Number,
       required: false,
       default: 0,
     },
-    blog_views: {
+    post_views: {
       type: Number,
       required: false,
       default: 0,
@@ -52,4 +52,4 @@ const blogArticleSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("BlogArticle", blogArticleSchema);
+module.exports = mongoose.model("BlogPost", blogPostSchema);

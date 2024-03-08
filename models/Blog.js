@@ -6,45 +6,45 @@ const {
 const Definer = require("../lib/mistake");
 const assert = require("assert");
 
-const BlogArticleModel = require("../schema/blog.model");
+const BlogPostModel = require("../schema/blog.model");
 const Member = require("./Member");
 
 class Blog {
   constructor() {
-    this.blogArticleModel = BlogArticleModel;
+    this.blogPostModel = BlogPostModel;
   }
 
-  async createArticleData(member, data) {
+  async createPostData(member, data) {
     try {
       data.mb_id = shapeIntoMongooseObjectId(member._id);
-      const new_article = await this.saveArticleData(data);
-      // console.log("new_article>>>", new_article);
-      return new_article;
+      const new_post = await this.savePostData(data);
+      console.log("new_post>>>", new_post);
+      return new_post;
     } catch (err) {
       throw err;
     }
   }
 
-  async saveArticleData(data) {
+  async savePostData(data) {
     try {
-      const article = new this.blogArticleModel(data);
-      return await article.save();
+      const post = new this.blogPostModel(data);
+      return await post.save();
     } catch (mongo_err) {
       console.log("mongo_err>>>", mongo_err);
       throw new Error(Definer.mongo_validation_err1);
     }
   }
 
-  async getMemberArticlesData(member, mb_id, inquiry) {
+  async getMemberPostsData(member, mb_id, inquiry) {
     try {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
       mb_id = shapeIntoMongooseObjectId(mb_id);
       const page = inquiry["page"] ? inquiry["page"] * 1 : 1;
       const limit = inquiry["limit"] ? inquiry["limit"] * 1 : 5;
 
-      const result = await this.blogArticleModel
+      const result = await this.blogPostModel
         .aggregate([
-          { $match: { mb_id: mb_id, blog_status: "active" } },
+          { $match: { mb_id: mb_id, post_status: "active" } },
           { $sort: { createdAt: -1 } },
           { $skip: (page - 1) * limit },
           { $limit: limit },
@@ -61,7 +61,7 @@ class Blog {
           // todo: check auth liked the chosen target
         ])
         .exec();
-      assert.ok(result, Definer.article_err2);
+      assert.ok(result, Definer.post_err2);
 
       return result;
     } catch (err) {
@@ -69,13 +69,13 @@ class Blog {
     }
   }
 
-  async getArticlesData(member, inquiry) {
+  async getPostsData(member, inquiry) {
     try {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
       let matches =
         inquiry.board_id === "all"
-          ? { board_id: { $in: board_id_enums }, blog_status: "active" }
-          : { board_id: inquiry.board_id, blog_status: "active" };
+          ? { board_id: { $in: board_id_enums }, post_status: "active" }
+          : { board_id: inquiry.board_id, post_status: "active" };
       inquiry.limit *= 1;
       inquiry.page *= 1;
 
@@ -83,7 +83,7 @@ class Blog {
         ? { [`${inquiry.order}`]: -1 }
         : { createdAt: -1 };
 
-      const result = await this.blogArticleModel
+      const result = await this.blogPostModel
         .aggregate([
           { $match: matches },
           { $sort: sort },
@@ -104,27 +104,25 @@ class Blog {
         .exec();
 
       console.log("result >>", result);
-      assert.ok(result, Definer.article_err3);
+      assert.ok(result, Definer.post_err3);
       return result;
     } catch (err) {
       throw err;
     }
   }
 
-  async getChosenArticleData(member, blog_id) {
+  async getChosenPostData(member, post_id) {
     try {
-      blog_id = shapeIntoMongooseObjectId(blog_id);
+      post_id = shapeIntoMongooseObjectId(post_id);
 
-      // increase blog_views when user has not seen before
+      // increase post_views when user has not seen before
       if (member) {
         const member_obj = new Member();
-        await member_obj.viewChosenItemByMember(member, blog_id, "blog");
+        await member_obj.viewChosenItemByMember(member, post_id, "blog");
       }
 
-      const result = await this.blogArticleModel
-        .findById({ _id: blog_id })
-        .exec();
-      assert.ok(result, Definer.article_err3);
+      const result = await this.blogPostModel.findById({ _id: post_id }).exec();
+      assert.ok(result, Definer.post_err3);
 
       return result;
     } catch (err) {
