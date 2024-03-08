@@ -1,6 +1,6 @@
 const {
   shapeIntoMongooseObjectId,
-  board_id_enum_list,
+  board_id_enums,
   lookup_auth_member_liked,
 } = require("../lib/config");
 const Definer = require("../lib/mistake");
@@ -74,7 +74,7 @@ class Blog {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
       let matches =
         inquiry.board_id === "all"
-          ? { board_id: { $in: board_id_enum_list }, blog_status: "active" }
+          ? { board_id: { $in: board_id_enums }, blog_status: "active" }
           : { board_id: inquiry.board_id, blog_status: "active" };
       inquiry.limit *= 1;
       inquiry.page *= 1;
@@ -98,12 +98,12 @@ class Blog {
             },
           },
           { $unwind: "$member_data" },
-          lookup_auth_member_liked(auth_mb_id),
+          // lookup_auth_member_liked(auth_mb_id),
           // todo: check auth liked the chosen target
         ])
         .exec();
 
-      // console.log("result >>", result);
+      console.log("result >>", result);
       assert.ok(result, Definer.article_err3);
       return result;
     } catch (err) {
