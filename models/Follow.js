@@ -81,10 +81,9 @@ class Follow {
   // FOR UNSUBSCRIBE
   async unsubscribeData(member, data) {
     try {
-      assert.ok(member._id !== data.mb_id, Definer.follow_err1);
+      // assert.ok(member._id !== data.mb_id, Definer.follow_err1);
 
       const subscriber_id = shapeIntoMongooseObjectId(member._id);
-
       const follow_id = shapeIntoMongooseObjectId(data.mb_id);
 
       const result = await this.followModel.findOneAndDelete({
@@ -92,7 +91,6 @@ class Follow {
         subscriber_id: subscriber_id,
       });
       // console.log("result>>>", result);
-
       assert.ok(result, Definer.general_err2);
 
       await this.modifyMemberFollowCounts(follow_id, "subscriber_change", -1);
