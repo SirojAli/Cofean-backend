@@ -101,7 +101,7 @@ class Follow {
     }
   }
 
-  async getMemberFollowingsData(inquiry) {
+  async getFollowingsData(inquiry) {
     try {
       // console.log("query>>>", inquiry);
       const subscriber_id = shapeIntoMongooseObjectId(inquiry.mb_id);
@@ -134,7 +134,7 @@ class Follow {
     }
   }
 
-  async getMemberFollowersData(member, inquiry) {
+  async getFollowersData(member, inquiry) {
     try {
       const follow_id = shapeIntoMongooseObjectId(inquiry.mb_id);
 

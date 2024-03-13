@@ -31,30 +31,30 @@ followController.unsubscribe = async (req, res) => {
   }
 };
 
-followController.getMemberFollowings = async (req, res) => {
+followController.getFollowings = async (req, res) => {
   try {
-    console.log("POST: cont/getMemberFollowings");
+    console.log("POST: cont/getFollowings");
 
     const follow = new Follow();
-    const result = await follow.getMemberFollowingsData(req.query);
+    const result = await follow.getFollowingsData(req.query);
 
     res.json({ state: "success", data: result });
   } catch (err) {
-    console.log(`ERROR, cont/getMemberFollowings, ${err.message} `);
+    console.log(`ERROR, cont/getFollowings, ${err.message} `);
     res.json({ state: "fail", message: err.message });
   }
 };
 
-followController.getMemberFollowers = async (req, res) => {
+followController.getFollowers = async (req, res) => {
   try {
-    console.log("POST: cont/getMemberFollowers");
+    console.log("POST: cont/getFollowers");
 
     const follow = new Follow();
-    const result = await follow.getMemberFollowersData(req.member, req.query);
+    const result = await follow.getFollowersData(req.member, req.query);
 
     res.json({ state: "success", data: result });
   } catch (err) {
-    console.log(`ERROR, cont/getMemberFollowers, ${err.message} `);
+    console.log(`ERROR, cont/getFollowers, ${err.message} `);
     res.json({ state: "fail", message: err.message });
   }
 };
