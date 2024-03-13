@@ -3,7 +3,7 @@ const router = express.Router();
 const cafeController = require("./controllers/cafeController");
 const memberController = require("./controllers/memberController");
 const productController = require("./controllers/productController");
-// const followController = require("./controllers/followController");
+const followController = require("./controllers/followController");
 const blogController = require("./controllers/blogController");
 const orderController = require("./controllers/orderController");
 
@@ -94,21 +94,21 @@ router.get(
 );
 
 // Following related routers
-// router.post(
-//   "/follow/subscribe",
-//   memberController.retrieveAuthMember,
-//   followController.subscribe
-// );
-// router.post(
-//   "/follow/unsubscribe",
-//   memberController.retrieveAuthMember,
-//   followController.unsubscribe
-// );
-// router.get("/follow/followings", followController.getMemberFollowings);
-// router.get(
-//   "/follow/followers",
-//   memberController.retrieveAuthMember,
-//   followController.getMemberFollowers
-// );
+router.post(
+  "/follow/subscribe",
+  memberController.retrieveAuthMember,
+  followController.subscribe
+);
+router.post(
+  "/follow/unsubscribe",
+  memberController.retrieveAuthMember,
+  followController.unsubscribe
+);
+router.get("/follow/followings", followController.getMemberFollowings);
+router.get(
+  "/follow/followers",
+  memberController.retrieveAuthMember,
+  followController.getMemberFollowers
+);
 
 module.exports = router;
