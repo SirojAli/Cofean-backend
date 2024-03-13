@@ -1,6 +1,6 @@
 const {
   shapeIntoMongooseObjectId,
-  // lookup_auth_member_following,
+  lookup_auth_member_following,
 } = require("../lib/config");
 const Definer = require("../lib/mistake");
 const assert = require("assert");
@@ -137,7 +137,6 @@ class Follow {
   async getFollowersData(member, inquiry) {
     try {
       const follow_id = shapeIntoMongooseObjectId(inquiry.mb_id);
-
       const page = inquiry.page * 1;
       const limit = inquiry.limit * 1;
 
@@ -158,11 +157,11 @@ class Follow {
         { $unwind: "$subscriber_member_data" },
       ];
 
+      // following followed back to subscriber
       if (member && member._id === inquiry.mb_id) {
-        aggregationQuery
-          .push
-          // lookup_auth_member_following(follow_id, "follows")
-          ();
+        aggregationQuery.push(
+          lookup_auth_member_following(follow_id, "follows")
+        );
       }
 
       const result = await this.followModel.aggregate(aggregationQuery).exec();

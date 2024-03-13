@@ -70,15 +70,15 @@ class Member {
         { $unset: "mb_password" }, // mb_password ni ko'rsatmaslik uchun
       ];
 
-      // if (member) {
-      //   await this.viewChosenItemByMember(member, id, "member");
+      if (member) {
+        await this.viewChosenItemByMember(member, id, "member");
 
-      //   // todo: check auth member liked the chosen member
-      //   aggregationQuery.push(lookup_auth_member_liked(auth_mb_id));
-      //   aggregationQuery.push(
-      //     lookup_auth_member_following(auth_mb_id, "members")
-      //   );
-      // }
+        // todo: check auth member liked the chosen member
+        aggregationQuery.push(lookup_auth_member_liked(auth_mb_id));
+        aggregationQuery.push(
+          lookup_auth_member_following(auth_mb_id, "members")
+        );
+      }
 
       const result = await this.memberModel.aggregate(aggregationQuery).exec();
 

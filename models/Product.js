@@ -83,7 +83,7 @@ class Product {
           { $sort: sort },
           { $skip: (data.page * 1 - 1) * data.limit },
           { $limit: data.limit * 1 },
-          // lookup_auth_member_liked(auth_mb_id), // auth-member like product
+          lookup_auth_member_liked(auth_mb_id),
         ])
         .exec();
 
