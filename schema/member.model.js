@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const {
-  member_type_enums,
-  member_status_enums,
-  member_top_enums,
+  mb_type_enums,
+  mb_status_enums,
+  mb_top_enums,
 } = require("../lib/config");
 
 const memberSchema = new mongoose.Schema(
@@ -33,7 +33,7 @@ const memberSchema = new mongoose.Schema(
       required: false,
       default: "USER",
       enum: {
-        values: member_type_enums,
+        values: mb_type_enums,
         message: "{VALUES} is not among permitted values",
       },
     },
@@ -42,7 +42,7 @@ const memberSchema = new mongoose.Schema(
       required: false,
       default: "ACTIVE",
       enum: {
-        values: member_status_enums,
+        values: mb_status_enums,
         message: "{VALUES} is not among permitted values",
       },
     },
@@ -68,7 +68,7 @@ const memberSchema = new mongoose.Schema(
       required: false,
       default: "N",
       enum: {
-        values: member_top_enums,
+        values: mb_top_enums,
         message: "{VALUES} is not among permitted values",
       },
     },

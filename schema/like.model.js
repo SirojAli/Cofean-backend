@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { like_view_enums, board_id_enums } = require("../lib/config");
 const Scheme = mongoose.Schema;
+
 const likeSchema = new mongoose.Schema(
   {
     mb_id: { type: Scheme.Types.ObjectId, required: true },

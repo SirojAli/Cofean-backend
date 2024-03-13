@@ -57,8 +57,9 @@ class Blog {
             },
           },
           { $unwind: "$member_data" },
-          lookup_auth_member_liked(auth_mb_id),
+
           // todo: check auth liked the chosen target
+          lookup_auth_member_liked(auth_mb_id),
         ])
         .exec();
       assert.ok(result, Definer.post_err2);
