@@ -98,7 +98,7 @@ router.get(
   blogController.getChosenPost
 );
 
-// Following related routers
+// Follow related routers
 router.post(
   "/follow/subscribe",
   memberController.retrieveAuthMember,

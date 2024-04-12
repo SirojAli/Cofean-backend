@@ -1,7 +1,7 @@
 const assert = require("assert");
 const {
   shapeIntoMongooseObjectId,
-  // lookup_auth_member_liked,
+  lookup_auth_member_liked,
 } = require("../lib/config");
 const ProductModel = require("../schema/product.model");
 const Definer = require("../lib/mistake");

@@ -4,8 +4,7 @@ const app = express();
 const router = require("./router");
 const router_bssr = require("./router_bssr");
 const cookieParser = require("cookie-parser");
-
-// const cors = require("cors");
+const cors = require("cors");
 // const path = require("path");
 
 let session = require("express-session");
@@ -22,12 +21,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(cookieParser());
 
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: true,
-//   })
-// );
+app.use(
+  cors({
+    credentials: true,
+    origin: true,
+  })
+);
 
 // 2: Session codes
 app.use(

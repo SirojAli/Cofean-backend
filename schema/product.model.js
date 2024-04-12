@@ -88,6 +88,11 @@ const productSchema = new mongoose.Schema(
       required: false,
       default: 0,
     },
+    product_review: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
     cafe_mb_id: {
       type: Schema.Types.ObjectId,
       ref: "Member",
