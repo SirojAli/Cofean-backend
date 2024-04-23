@@ -70,6 +70,32 @@
           />
         </div>
       </div>
+
+      <div class="sign_input_frame">
+        <div class="sign_up_frame">
+          <label for="">Address</label>
+          <input
+            type="text"
+            name="mb_address"
+            class="mb_address"
+            placeholder="Address"
+            value=""
+            required
+          />
+        </div>
+        <div class="sign_up_frame">
+          <label for="">Phone</label>
+          <input
+            type="text"
+            name="mb_phone"
+            class="mb_phone"
+            placeholder="Phone"
+            value=""
+            required
+          />
+        </div>
+      </div>
+
       <div class="login_input_frame">
         <div class="media_frame">
           <img
@@ -132,12 +158,16 @@
       const mb_email = $(".mb_email").val();
       const mb_password = $(".mb_password").val();
       const mb_confirm_password = $(".mb_confirm_password").val();
+      const mb_address = $(".mb_address").val();
+      const mb_phone = $(".mb_phone").val();
       const cafe_img = $(".cafe_img").get(0).files[0] ?? null;
       if (
         mb_nick == "" ||
         mb_password == "" ||
         mb_email == "" ||
-        mb_confirm_password == ""
+        mb_confirm_password == "" ||
+        mb_address == "" ||
+        mb_phone == ""
       ) {
         alert("Please, Input all information correctly!");
         return false;

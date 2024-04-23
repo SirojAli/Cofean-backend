@@ -17,7 +17,6 @@ const memberSchema = new mongoose.Schema(
       required: true,
       select: false,
     },
-    // **  new added  **
     mb_email: {
       type: String,
       required: true,
@@ -27,6 +26,10 @@ const memberSchema = new mongoose.Schema(
       type: String,
       required: false,
       // index: { unique: true, sparse: true },
+    },
+    mb_address: {
+      type: String,
+      required: false,
     },
     mb_type: {
       type: String,
@@ -45,10 +48,6 @@ const memberSchema = new mongoose.Schema(
         values: mb_status_enums,
         message: "{VALUES} is not among permitted values",
       },
-    },
-    mb_address: {
-      type: String,
-      required: false,
     },
     mb_description: {
       type: String,
