@@ -13,6 +13,10 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    product_cafe_name: {
+      type: String,
+      required: false,
+    },
     product_collection: {
       type: String,
       required: true,
@@ -55,11 +59,11 @@ const productSchema = new mongoose.Schema(
         message: "{VALUES} is not among permitted values",
       },
     },
-    // for food and cakes & goods and card
+    // for food and cakes & goods
     product_size: {
       type: String,
       required: function () {
-        const sized_list = ["food", "card"];
+        const sized_list = ["food", "goods"];
         return sized_list.includes(this.product_collection);
       },
       default: "default",
@@ -89,6 +93,43 @@ const productSchema = new mongoose.Schema(
       default: 0,
     },
     product_review: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+
+    // Nutritional Information
+    product_allergy: {
+      type: String,
+      required: false,
+      default: "-",
+    },
+    product_calories: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    product_caffeine: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    product_sugar: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    product_protein: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    product_saturated_fat: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    product_sodium: {
       type: Number,
       required: false,
       default: 0,

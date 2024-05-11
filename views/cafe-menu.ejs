@@ -106,6 +106,55 @@
             </select>
            </div>
           </div>
+          
+
+          <!-- Add fields for allergies and nutritional information -->
+        <div class="half_input_frame">
+          <!-- <div class="half_input">
+            <label for="product_discount">Product Discount (%)</label>
+            <input id="product_discount" type="number" placeholder="Product Discount" name="product_discount" class="product_discount">
+          </div> -->
+          
+          <div class="half_input">
+            <label for="product_allergy">Product Allergies</label>
+            <input id="product_allergy" type="text" placeholder="Product Allergies" name="product_allergy" class="product_allergy" autocomplete="off">
+          </div>
+          <div class="half_input">
+            <label for="product_calory">Calories (kcal)</label>
+            <input id="product_calory" type="number" placeholder="Calories" name="product_calory" class="product_calory">
+          </div>
+        </div>
+        <div class="half_input_frame">
+          <div class="half_input">
+            <label for="product_caffeine">Caffeine (mg)</label>
+            <input id="product_caffeine" type="number" placeholder="Caffeine" name="product_caffeine" class="product_caffeine">
+          </div>
+          <div class="half_input">
+            <label for="product_sugar">Sugar (g)</label>
+            <input id="product_sugar" type="number" placeholder="Sugar" name="product_sugar" class="product_sugar">
+          </div>
+        </div>
+        <div class="half_input_frame">
+          <div class="half_input">
+            <label for="product_protein">Protein (g)</label>
+            <input id="product_protein" type="number" placeholder="Protein" name="product_protein" class="product_protein">
+          </div>
+          <div class="half_input">
+            <label for="product_saturated_fat">Saturated Fat (g)</label>
+            <input id="product_saturated_fat" type="number" placeholder="Saturated Fat" name="product_saturated_fat" class="product_saturated_fat">
+          </div>
+        </div>
+        <div class="half_input_frame">
+          <div class="half_input">
+            <label for="product_sodium">Sodium (g)</label>
+            <input id="product_sodium" type="number" placeholder="Sodium" name="product_sodium" class="product_sodium">
+          </div>
+          <div class="half_input">
+            <label for="product_discount">Product Discount (%)</label>
+            <input id="product_discount" type="number" placeholder="Product Discount" name="product_discount" class="product_discount">
+          </div>
+          
+        </div>
 
           <div class="desc_upload">
             <div class="long_input">
@@ -154,7 +203,6 @@
       });
 
       // Product Status Changer
-
       $(".new_product_status").on("change", async function(e){
         <!-- console.log("event", e); -->
         const id = e.target.id;
@@ -162,7 +210,6 @@
         try{
           const response = await axios.post(`/cafe/products/edit/${id}`, 
           {id: id, product_status: product_status});
-          // kutish bo'ladi
           const result = response.data;
           console.log("result >> ", result);
           if(result.state == 'success'){

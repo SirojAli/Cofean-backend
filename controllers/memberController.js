@@ -4,30 +4,6 @@ const jwt = require("jsonwebtoken");
 const assert = require("assert");
 const Definer = require("../lib/mistake");
 
-// memberController.signup = async (req, res) => {
-//   try {
-//     console.log("POST: cont/signup");
-//     const data = req.body,
-//       member = new Member(),
-//       new_member = await member.signupData(data);
-//     // console.log("result>>>", new_member);
-
-//     // TODO: AUTHENTICATE BASED ON JWT (json web token)
-//     const token = memberController.createToken(new_member);
-//     // console.log("token>>>", token);
-
-//     res.cookie("access_token", token, {
-//       maxAge: 6 * 3600 * 1000,
-//       httpOnly: false,
-//     });
-
-//     res.json({ state: "succeed", data: new_member });
-//   } catch (err) {
-//     console.log(`ERROR, cont/signup, ${err.message} `);
-//     res.json({ state: "failed", message: err.message });
-//   }
-// };
-
 memberController.signup = async (req, res) => {
   try {
     console.log("POST: cont/signup");
