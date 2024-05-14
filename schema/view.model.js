@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { like_view_enums, board_id_enums } = require("../lib/config");
+const { like_view_enums, blog_id_enums } = require("../lib/config");
 const Scheme = mongoose.Schema;
 const viewSchema = new mongoose.Schema(
   {
@@ -14,7 +14,7 @@ const viewSchema = new mongoose.Schema(
       type: String,
       required: false,
       enum: {
-        values: board_id_enums,
+        values: blog_id_enums,
       },
     },
   },

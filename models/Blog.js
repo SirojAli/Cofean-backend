@@ -1,6 +1,6 @@
 const {
   shapeIntoMongooseObjectId,
-  board_id_enums,
+  blog_id_enums,
   lookup_auth_member_liked,
 } = require("../lib/config");
 const Definer = require("../lib/mistake");
@@ -75,7 +75,7 @@ class Blog {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
       let matches =
         inquiry.board_id === "all"
-          ? { board_id: { $in: board_id_enums }, post_status: "active" }
+          ? { board_id: { $in: blog_id_enums }, post_status: "active" }
           : { board_id: inquiry.board_id, post_status: "active" };
       inquiry.limit *= 1;
       inquiry.page *= 1;

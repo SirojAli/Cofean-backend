@@ -11,10 +11,14 @@ const assert = require("assert");
 const bcrypt = require("bcryptjs");
 const View = require("./View");
 const Like = require("./Like");
+const ReviewModel = require("../schema/review.model");
+
+const Review = require("./Review");
 
 class Member {
   constructor() {
     this.memberModel = MemberModel;
+    this.reviewModel = ReviewModel;
   }
   async signupData(input) {
     try {
@@ -161,6 +165,69 @@ class Member {
           lean: true,
           returnDocument: "after",
         })
+        .exec();
+      assert.ok(result, Definer.general_err1);
+
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async createReviewData(member, data) {
+    try {
+      const review_ref_id = shapeIntoMongooseObjectId(data.review_ref_id);
+      const mb_id = shapeIntoMongooseObjectId(member._id);
+      const review = new Review({
+        mb_id: mb_id,
+        review_ref_id: review_ref_id,
+        review_group: data.review_group,
+        title: data.title,
+        content: data.content,
+        product_rating: data.product_rating ? data.product_rating : 0,
+      });
+      const isValid = await review.validateChosenTarget(
+        review_ref_id,
+        data.group_type
+      );
+      assert.ok(isValid, Definer.general_err2);
+
+      const result = await review.insertMemberReview(
+        review_ref_id,
+        data.group_type,
+        data.title,
+        data.content,
+        data.product_rating
+      );
+      assert.ok(result, Definer.general_err1);
+
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getReviewsData(data) {
+    try {
+      const review_ref_id = shapeIntoMongooseObjectId(data.review_ref_id);
+      const page = data.page * 1;
+      const limit = data.limit * 1;
+      const result = await this.reviewModel
+        .aggregate([
+          { $match: { review_ref_id: review_ref_id } },
+          { $sort: { createdAt: -1 } },
+          { $skip: (page - 1) * limit },
+          { $limit: limit },
+          {
+            $lookup: {
+              from: "members",
+              localField: "mb_id",
+              foreignField: "_id",
+              as: "member_data",
+            },
+          },
+          { $unwind: "$member_data" },
+        ])
         .exec();
       assert.ok(result, Definer.general_err1);
 

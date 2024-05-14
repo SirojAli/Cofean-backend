@@ -97,6 +97,14 @@ const productSchema = new mongoose.Schema(
       required: false,
       default: 0,
     },
+    product_point: {
+      type: Number,
+      default: 0,
+    },
+    product_rating: {
+      type: Number,
+      default: 0,
+    },
 
     // Nutritional Information
     product_allergy: {

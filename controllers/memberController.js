@@ -134,3 +134,29 @@ memberController.retrieveAuthMember = (req, res, next) => {
     next();
   }
 };
+
+memberController.createReview = async (req, res) => {
+  try {
+    console.log("POST: cont/createReview");
+    assert.ok(req.member, Definer.auth_err1);
+    const review = new Member();
+    const result = await review.createReviewData(req.member, req.body);
+    res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log(`ERROR, cont/createReview, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
+memberController.getReviews = async (req, res) => {
+  try {
+    console.log("POST: cont/getReviews");
+
+    const review = new Member();
+    const result = await review.getReviewsData(req.body);
+    res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log(`ERROR, cont/getReviews, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};

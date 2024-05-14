@@ -30,6 +30,18 @@ router.post(
   memberController.likeMemberChosen
 );
 
+// Cafe related routers
+router.get(
+  "/cafes",
+  memberController.retrieveAuthMember,
+  cafeController.getCafes
+);
+router.get(
+  "/cafes/:id",
+  memberController.retrieveAuthMember,
+  cafeController.getChosenCafe
+);
+
 // Product related routers
 router.post(
   "/products",
@@ -42,17 +54,13 @@ router.get(
   productController.getChosenProduct
 );
 
-// Cafe related routers
-router.get(
-  "/cafes",
+// Review related routers
+router.post(
+  "/review/create",
   memberController.retrieveAuthMember,
-  cafeController.getCafes
+  memberController.createReview
 );
-router.get(
-  "/cafes/:id",
-  memberController.retrieveAuthMember,
-  cafeController.getChosenCafe
-);
+router.post("/reviews", memberController.getReviews);
 
 // Order related routers
 router.post(

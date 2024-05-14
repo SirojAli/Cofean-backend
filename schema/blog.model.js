@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { board_id_enums, blog_status_enums } = require("../lib/config");
+const { blog_id_enums, blog_status_enums } = require("../lib/config");
 const Schema = mongoose.Schema;
 
 const blogPostSchema = new mongoose.Schema(
@@ -20,7 +20,7 @@ const blogPostSchema = new mongoose.Schema(
       type: String,
       required: true,
       enum: {
-        values: board_id_enums,
+        values: blog_id_enums,
         message: "{VALUES} is not among permitted values",
       },
     },
