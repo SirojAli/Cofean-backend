@@ -33,7 +33,7 @@ class Review {
           result = await this.blogModel
             .findOne({
               _id: review_ref_id,
-              post_status: "active",
+              blog_status: "active",
             })
             .exec();
           break;
@@ -107,7 +107,7 @@ class Review {
               {
                 _id: review_ref_id,
               },
-              { $inc: { post_views: 1 } }
+              { $inc: { blog_views: 1 } }
             )
             .exec();
           break;

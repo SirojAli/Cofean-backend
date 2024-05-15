@@ -1,7 +1,7 @@
 const MemberModel = require("../schema/member.model");
 const LikeModel = require("../schema/like.model");
 const ProductModel = require("../schema/product.model");
-const BlogPostModel = require("../schema/blog.model");
+const BlogModel = require("../schema/blog.model");
 const Definer = require("../lib/mistake");
 
 class Like {
@@ -9,7 +9,7 @@ class Like {
     this.likeModel = LikeModel;
     this.memberModel = MemberModel;
     this.productModel = ProductModel;
-    this.blogPostModel = BlogPostModel;
+    this.blogModel = BlogModel;
     this.mb_id = mb_id;
   }
 
@@ -37,10 +37,10 @@ class Like {
 
         case "blog":
         default:
-          result = await this.blogPostModel
+          result = await this.blogModel
             .findOne({
               _id: id,
-              post_status: "active",
+              blog_status: "active",
             })
             .exec();
           break;
@@ -125,10 +125,10 @@ class Like {
           break;
 
         case "blog":
-          await this.blogPostModel
+          await this.blogModel
             .findByIdAndUpdate(
               { _id: like_ref_id },
-              { $inc: { post_likes: modifier } }
+              { $inc: { blog_likes: modifier } }
             )
             .exec();
           break;

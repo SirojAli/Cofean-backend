@@ -3,6 +3,52 @@ let blogController = module.exports;
 const assert = require("assert");
 const Definer = require("../lib/mistake");
 
+blogController.createBlog = async (req, res) => {
+  try {
+    console.log("POST: cont/createBlog");
+
+    // blog service model
+    const blog = new Blog();
+    const result = await blog.createBlogData(req.member, req.body);
+    assert.ok(result, Definer.general_err1);
+
+    res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log(`ERROR, cont/createBlog, ${err.message} `);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
+blogController.getBlogs = async (req, res) => {
+  try {
+    console.log("GET: cont/getBlogs");
+    // console.log("query>>>", req.query);
+    const blog = new Blog();
+
+    const result = await blog.getBlogsData(req.member, req.query);
+    res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log(`ERROR, cont/getBlogs, ${err.message} `);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
+blogController.getChosenBlog = async (req, res) => {
+  try {
+    console.log("GET: cont/getChosenBlog");
+
+    const blog_id = req.params.blog_id;
+    console.log("blog_id>>>", blog_id);
+    const blog = new Blog();
+
+    const result = await blog.getChosenBlogData(req.member, blog_id);
+    res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log(`ERROR, cont/getChosenBlog, ${err.message} `);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
 blogController.imageInsertion = async (req, res) => {
   try {
     console.log("POST: cont/imageInsertion");
@@ -16,66 +62,20 @@ blogController.imageInsertion = async (req, res) => {
   }
 };
 
-blogController.createPost = async (req, res) => {
+blogController.getMemberBlogs = async (req, res) => {
   try {
-    console.log("POST: cont/createPost");
-
-    // blog service model
-    const blog = new Blog();
-    const result = await blog.createPostData(req.member, req.body);
-    assert.ok(result, Definer.general_err1);
-
-    res.json({ state: "success", data: result });
-  } catch (err) {
-    console.log(`ERROR, cont/createPost, ${err.message} `);
-    res.json({ state: "fail", message: err.message });
-  }
-};
-
-blogController.getMemberPosts = async (req, res) => {
-  try {
-    console.log("GET: cont/getMemberPosts");
+    console.log("GET: cont/getMemberBlogs");
     const blog = new Blog();
 
     const mb_id =
       req.query.mb_id !== "none" ? req.query.mb_id : req.member?._id;
-    assert.ok(mb_id, Definer.post_err1);
+    assert.ok(mb_id, Definer.blog_err1);
 
-    const result = await blog.getMemberPostsData(req.member, mb_id, req.query);
+    const result = await blog.getMemberBlogsData(req.member, mb_id, req.query);
 
     res.json({ state: "success", data: result });
   } catch (err) {
-    console.log(`ERROR, cont/getMemberPosts, ${err.message} `);
-    res.json({ state: "fail", message: err.message });
-  }
-};
-
-blogController.getPosts = async (req, res) => {
-  try {
-    console.log("GET: cont/getPosts");
-    // console.log("query>>>", req.query);
-    const blog = new Blog();
-
-    const result = await blog.getPostsData(req.member, req.query);
-    res.json({ state: "success", data: result });
-  } catch (err) {
-    console.log(`ERROR, cont/getPosts, ${err.message} `);
-    res.json({ state: "fail", message: err.message });
-  }
-};
-
-blogController.getChosenPost = async (req, res) => {
-  try {
-    console.log("GET: cont/getChosenpost");
-
-    const post_id = req.params.post_id;
-    console.log("post_id>>>", post_id);
-    const blog = new Blog();
-
-    const result = await blog.getChosenPostData(req.member, post_id);
-    res.json({ state: "success", data: result });
-  } catch (err) {
-    console.log(`ERROR, cont/getChosenPost, ${err.message} `);
+    console.log(`ERROR, cont/getMemberBlogs, ${err.message} `);
     res.json({ state: "fail", message: err.message });
   }
 };

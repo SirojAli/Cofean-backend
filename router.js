@@ -81,29 +81,31 @@ router.post(
 
 // Blog related routers
 router.post(
+  "/blog/create",
+  memberController.retrieveAuthMember,
+  blogController.createBlog
+);
+router.get(
+  "/blog/all-blogs",
+  memberController.retrieveAuthMember,
+  blogController.getBlogs
+);
+
+router.get(
+  "/blog/single-blog/:blog_id",
+  memberController.retrieveAuthMember,
+  blogController.getChosenBlog
+);
+router.post(
   "/blog/image",
   uploader_blog.single("blog_image"),
   blogController.imageInsertion
 );
-router.post(
-  "/blog/create",
-  memberController.retrieveAuthMember,
-  blogController.createPost
-);
+
 router.get(
-  "/blog/posts",
+  "/blogs/target-blogs",
   memberController.retrieveAuthMember,
-  blogController.getMemberPosts
-);
-router.get(
-  "/blog/target",
-  memberController.retrieveAuthMember,
-  blogController.getPosts
-);
-router.get(
-  "/blog/single-post/:post_id",
-  memberController.retrieveAuthMember,
-  blogController.getChosenPost
+  blogController.getMemberBlogs
 );
 
 // Follow related routers

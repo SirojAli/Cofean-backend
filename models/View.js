@@ -1,14 +1,14 @@
 const MemberModel = require("../schema/member.model");
 const ProductModel = require("../schema/product.model");
 const ViewModel = require("../schema/view.model");
-const BlogPostModel = require("../schema/blog.model");
+const BlogModel = require("../schema/blog.model");
 
 class View {
   constructor(mb_id) {
     this.viewModel = ViewModel;
     this.memberModel = MemberModel;
     this.productModel = ProductModel;
-    this.blogPostModel = BlogPostModel;
+    this.blogModel = BlogModel;
     this.mb_id = mb_id;
   }
 
@@ -35,10 +35,10 @@ class View {
           break;
 
         case "blog":
-          result = await this.blogPostModel
+          result = await this.blogModel
             .findOne({
               _id: view_ref_id,
-              post_status: "active",
+              blog_status: "active",
             })
             .exec();
           break;
@@ -85,10 +85,10 @@ class View {
           break;
 
         case "blog":
-          await this.blogPostModel
+          await this.blogModel
             .findByIdAndUpdate(
               { _id: view_ref_id },
-              { $inc: { post_views: 1 } }
+              { $inc: { blog_views: 1 } }
             )
             .exec();
           break;

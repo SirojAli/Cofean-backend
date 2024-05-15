@@ -51,7 +51,7 @@ cafeController.home = async (req, res) => {
 
 cafeController.signupProcess = async (req, res) => {
   try {
-    console.log("POST: cont/signupProcess");
+    console.log("BLOG: cont/signupProcess");
     console.log("body >>", req.body);
     console.log("file >>", req.file);
     assert(req.file, Definer.general_err3);
@@ -86,7 +86,7 @@ cafeController.getSignupMyCafe = async (req, res) => {
 
 cafeController.loginProcess = async (req, res) => {
   try {
-    console.log("POST: cont/loginProcess");
+    console.log("BLOG: cont/loginProcess");
     const data = req.body,
       member = new Member(),
       result = await member.loginData(data);

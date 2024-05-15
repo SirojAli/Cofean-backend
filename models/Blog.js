@@ -1,82 +1,37 @@
 const {
   shapeIntoMongooseObjectId,
-  blog_id_enums,
+  blog_type_enums,
   lookup_auth_member_liked,
 } = require("../lib/config");
 const Definer = require("../lib/mistake");
 const assert = require("assert");
 
-const BlogPostModel = require("../schema/blog.model");
+const BlogModel = require("../schema/blog.model");
 const Member = require("./Member");
 
 class Blog {
   constructor() {
-    this.blogPostModel = BlogPostModel;
+    this.blogModel = BlogModel;
   }
 
-  async createPostData(member, data) {
+  async createBlogData(member, data) {
     try {
       data.mb_id = shapeIntoMongooseObjectId(member._id);
-      const new_post = await this.savePostData(data);
-      console.log("new_post>>>", new_post);
-      return new_post;
+      const new_blog = await this.saveBlogData(data);
+      console.log("new_blog >>>", new_blog);
+      return new_blog;
     } catch (err) {
       throw err;
     }
   }
 
-  async savePostData(data) {
-    try {
-      const post = new this.blogPostModel(data);
-      return await post.save();
-    } catch (mongo_err) {
-      console.log("mongo_err>>>", mongo_err);
-      throw new Error(Definer.mongo_validation_err1);
-    }
-  }
-
-  async getMemberPostsData(member, mb_id, inquiry) {
-    try {
-      const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
-      mb_id = shapeIntoMongooseObjectId(mb_id);
-      const page = inquiry["page"] ? inquiry["page"] * 1 : 1;
-      const limit = inquiry["limit"] ? inquiry["limit"] * 1 : 5;
-
-      const result = await this.blogPostModel
-        .aggregate([
-          { $match: { mb_id: mb_id, post_status: "active" } },
-          { $sort: { createdAt: -1 } },
-          { $skip: (page - 1) * limit },
-          { $limit: limit },
-          {
-            $lookup: {
-              from: "members",
-              localField: "mb_id",
-              foreignField: "_id",
-              as: "member_data",
-            },
-          },
-          { $unwind: "$member_data" },
-
-          // todo: check auth liked the chosen target
-          lookup_auth_member_liked(auth_mb_id),
-        ])
-        .exec();
-      assert.ok(result, Definer.post_err2);
-
-      return result;
-    } catch (err) {
-      throw err;
-    }
-  }
-
-  async getPostsData(member, inquiry) {
+  async getBlogsData(member, inquiry) {
     try {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
       let matches =
-        inquiry.board_id === "all"
-          ? { board_id: { $in: blog_id_enums }, post_status: "active" }
-          : { board_id: inquiry.board_id, post_status: "active" };
+        inquiry.blog_types === "all"
+          ? { blog_types: { $in: blog_type_enums }, blog_status: "active" }
+          : { blog_types: inquiry.blog_types, blog_status: "active" };
       inquiry.limit *= 1;
       inquiry.page *= 1;
 
@@ -84,7 +39,7 @@ class Blog {
         ? { [`${inquiry.order}`]: -1 }
         : { createdAt: -1 };
 
-      const result = await this.blogPostModel
+      const result = await this.blogModel
         .aggregate([
           { $match: matches },
           { $sort: sort },
@@ -105,25 +60,70 @@ class Blog {
         .exec();
 
       console.log("result >>", result);
-      assert.ok(result, Definer.post_err3);
+      assert.ok(result, Definer.blog_err3);
       return result;
     } catch (err) {
       throw err;
     }
   }
 
-  async getChosenPostData(member, post_id) {
+  async getChosenBlogData(member, blog_id) {
     try {
-      post_id = shapeIntoMongooseObjectId(post_id);
+      blog_id = shapeIntoMongooseObjectId(blog_id);
 
-      // increase post_views when user has not seen before
+      // increase blog_views when user has not seen before
       if (member) {
         const member_obj = new Member();
-        await member_obj.viewChosenItemByMember(member, post_id, "blog");
+        await member_obj.viewChosenItemByMember(member, blog_id, "blog");
       }
 
-      const result = await this.blogPostModel.findById({ _id: post_id }).exec();
-      assert.ok(result, Definer.post_err3);
+      const result = await this.blogModel.findById({ _id: blog_id }).exec();
+      assert.ok(result, Definer.blog_err3);
+
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async saveBlogData(data) {
+    try {
+      const blog = new this.blogModel(data);
+      return await blog.save();
+    } catch (mongo_err) {
+      console.log("mongo_err>>>", mongo_err);
+      throw new Error(Definer.mongo_valid_err1);
+    }
+  }
+
+  async getMemberBlogsData(member, mb_id, inquiry) {
+    try {
+      const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
+      mb_id = shapeIntoMongooseObjectId(mb_id);
+      const page = inquiry["page"] ? inquiry["page"] * 1 : 1;
+      const limit = inquiry["limit"] ? inquiry["limit"] * 1 : 5;
+
+      const result = await this.blogModel
+        .aggregate([
+          { $match: { mb_id: mb_id, blog_status: "active" } },
+          { $sort: { createdAt: -1 } },
+          { $skip: (page - 1) * limit },
+          { $limit: limit },
+          {
+            $lookup: {
+              from: "members",
+              localField: "mb_id",
+              foreignField: "_id",
+              as: "member_data",
+            },
+          },
+          { $unwind: "$member_data" },
+
+          // todo: check auth liked the chosen target
+          lookup_auth_member_liked(auth_mb_id),
+        ])
+        .exec();
+      assert.ok(result, Definer.blog_err2);
 
       return result;
     } catch (err) {
