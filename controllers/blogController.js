@@ -7,7 +7,6 @@ blogController.createBlog = async (req, res) => {
   try {
     console.log("POST: cont/createBlog");
 
-    // blog service model
     const blog = new Blog();
     const result = await blog.createBlogData(req.member, req.body);
     assert.ok(result, Definer.general_err1);

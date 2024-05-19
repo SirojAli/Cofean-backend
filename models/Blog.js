@@ -91,7 +91,7 @@ class Blog {
       const blog = new this.blogModel(data);
       return await blog.save();
     } catch (mongo_err) {
-      console.log("mongo_err>>>", mongo_err);
+      console.log("mongo_err >>>", mongo_err);
       throw new Error(Definer.mongo_valid_err1);
     }
   }
