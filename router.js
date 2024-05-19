@@ -81,23 +81,23 @@ router.post(
 
 // Blog related routers
 router.post(
-  "/blog/create",
+  "/blogs/create",
   memberController.retrieveAuthMember,
   blogController.createBlog
 );
 router.get(
-  "/blog/all-blogs",
+  "/blogs/all-blogs",
   memberController.retrieveAuthMember,
   blogController.getBlogs
 );
 
 router.get(
-  "/blog/single-blog/:blog_id",
+  "/blogs/single-blog/:blog_id",
   memberController.retrieveAuthMember,
   blogController.getChosenBlog
 );
 router.post(
-  "/blog/image",
+  "/blogs/image",
   uploader_blog.single("blog_image"),
   blogController.imageInsertion
 );
