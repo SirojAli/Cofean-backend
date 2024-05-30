@@ -14,9 +14,29 @@ class Blog {
     this.blogModel = BlogModel;
   }
 
+  // async createBlogData(member, data) {
+  //   try {
+  //     data.mb_id = shapeIntoMongooseObjectId(member._id);
+  //     const new_blog = await this.saveBlogData(data);
+  //     console.log("new_blog >>>", new_blog);
+  //     return new_blog;
+  //   } catch (err) {
+  //     throw err;
+  //   }
+  // }
+
   async createBlogData(member, data) {
     try {
       data.mb_id = shapeIntoMongooseObjectId(member._id);
+
+      // Validate blog_image field
+      if (data.blog_image && !Array.isArray(data.blog_image)) {
+        throw new Error("blog_image must be an array of strings");
+      }
+      if (Array.isArray(data.blog_image)) {
+        data.blog_image = data.blog_image.map(String);
+      }
+
       const new_blog = await this.saveBlogData(data);
       console.log("new_blog >>>", new_blog);
       return new_blog;
@@ -85,6 +105,16 @@ class Blog {
       throw err;
     }
   }
+
+  // async saveBlogData(data) {
+  //   try {
+  //     const blog = new this.blogModel(data);
+  //     return await blog.save();
+  //   } catch (mongo_err) {
+  //     console.log("mongo_err >>>", mongo_err);
+  //     throw new Error(Definer.mongo_valid_err1);
+  //   }
+  // }
 
   async saveBlogData(data) {
     try {

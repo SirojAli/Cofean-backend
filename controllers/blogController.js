@@ -3,9 +3,29 @@ let blogController = module.exports;
 const assert = require("assert");
 const Definer = require("../lib/mistake");
 
+// blogController.createBlog = async (req, res) => {
+//   try {
+//     console.log("POST: cont/createBlog");
+
+//     const blog = new Blog();
+//     const result = await blog.createBlogData(req.member, req.body);
+//     assert.ok(result, Definer.general_err1);
+
+//     res.json({ state: "success", data: result });
+//   } catch (err) {
+//     console.log(`ERROR, cont/createBlog, ${err.message} `);
+//     res.json({ state: "fail", message: err.message });
+//   }
+// };
+
 blogController.createBlog = async (req, res) => {
   try {
     console.log("POST: cont/createBlog");
+
+    // Validate incoming blog_image
+    if (req.body.blog_image && !Array.isArray(req.body.blog_image)) {
+      throw new Error("blog_image must be an array of strings");
+    }
 
     const blog = new Blog();
     const result = await blog.createBlogData(req.member, req.body);
