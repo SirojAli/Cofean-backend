@@ -41,13 +41,13 @@ blogController.createBlog = async (req, res) => {
 blogController.getBlogs = async (req, res) => {
   try {
     console.log("GET: cont/getBlogs");
-    // console.log("query>>>", req.query);
+    console.log("query >>>", req.query);
     const blog = new Blog();
 
     const result = await blog.getBlogsData(req.member, req.query);
     res.json({ state: "success", data: result });
   } catch (err) {
-    console.log(`ERROR, cont/getBlogs, ${err.message} `);
+    console.log(`ERROR cont/getBlogs >>> ${err.message} `);
     res.json({ state: "fail", message: err.message });
   }
 };
