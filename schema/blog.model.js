@@ -6,15 +6,7 @@ const blogSchema = new mongoose.Schema(
   {
     blog_title: { type: String, required: true },
     blog_content: { type: String, required: true },
-    blog_image: { type: [String], required: false },
-    blog_types: {
-      type: String,
-      required: true,
-      enum: {
-        values: blog_type_enums,
-        message: "{VALUES} is not among permitted values",
-      },
-    },
+    blog_image: { type: String, required: false },
     blog_status: {
       type: String,
       required: false,

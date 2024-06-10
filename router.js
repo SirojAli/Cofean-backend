@@ -7,7 +7,7 @@ const followController = require("./controllers/followController");
 const blogController = require("./controllers/blogController");
 const orderController = require("./controllers/orderController");
 
-const uploader_blog = require("./utils/upload-multer")("blog");
+const uploader_blog = require("./utils/upload-multer")("blogs");
 const uploader_member = require("./utils/upload-multer")("members");
 
 /********************
@@ -83,10 +83,11 @@ router.post(
 router.post(
   "/blogs/create",
   memberController.retrieveAuthMember,
+  uploader_blog.single("blog_image"),
   blogController.createBlog
 );
 router.get(
-  "/blogs/all-blogs",
+  "/blogs/posts",
   memberController.retrieveAuthMember,
   blogController.getBlogs
 );
@@ -95,17 +96,6 @@ router.get(
   "/blogs/single-blog/:blog_id",
   memberController.retrieveAuthMember,
   blogController.getChosenBlog
-);
-router.post(
-  "/blogs/image",
-  uploader_blog.single("blog_image"),
-  blogController.imageInsertion
-);
-
-router.get(
-  "/blogs/target-blogs",
-  memberController.retrieveAuthMember,
-  blogController.getMemberBlogs
 );
 
 // Follow related routers
