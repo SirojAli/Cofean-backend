@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { blog_type_enums, blog_status_enums } = require("../lib/config");
+const { blog_status_enums } = require("../lib/config");
 const Schema = mongoose.Schema;
 
 const blogSchema = new mongoose.Schema(

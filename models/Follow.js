@@ -81,8 +81,6 @@ class Follow {
   // FOR UNSUBSCRIBE
   async unsubscribeData(member, data) {
     try {
-      // assert.ok(member._id !== data.mb_id, Definer.follow_err1);
-
       const subscriber_id = shapeIntoMongooseObjectId(member._id);
       const follow_id = shapeIntoMongooseObjectId(data.mb_id);
 
@@ -103,9 +101,7 @@ class Follow {
 
   async getFollowingsData(inquiry) {
     try {
-      // console.log("query>>>", inquiry);
       const subscriber_id = shapeIntoMongooseObjectId(inquiry.mb_id);
-
       const page = inquiry.page * 1;
       const limit = inquiry.limit * 1;
 
