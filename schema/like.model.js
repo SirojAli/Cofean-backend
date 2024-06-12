@@ -11,13 +11,6 @@ const likeSchema = new mongoose.Schema(
       required: true,
       enum: { values: like_view_enums },
     },
-    blog_types: {
-      type: String,
-      required: false,
-      enum: {
-        values: blog_type_enums,
-      },
-    },
   },
   { timestamps: { createdAt: true } }
 );

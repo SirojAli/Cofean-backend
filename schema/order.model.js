@@ -5,24 +5,19 @@ const Schema = mongoose.Schema;
 const orderSchema = new mongoose.Schema(
   {
     order_total_amount: { type: Number, required: true },
-    order_delivery_cost: { type: Number, required: true },
+    // order_delivery_cost: { type: Number, required: true },
     order_status: {
       type: String,
       required: false,
-      default: "PROCESS",
+      default: "PENDING",
       enum: {
         values: order_status_enums,
-        message: "{VALUES} is not among permitted values",
+        message: "{VALUE} is not among permitted values",
       },
     },
-
-    mb_id: {
-      type: Schema.Types.ObjectId,
-      ref: "Member",
-      required: false,
-    },
+    mb_id: { type: Schema.Types.ObjectId, ref: "Member", required: false },
   },
-  { timestamps: { createdAt: true } }
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("Order", orderSchema);
