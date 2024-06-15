@@ -25,7 +25,7 @@ const memberSchema = new mongoose.Schema(
     mb_phone: {
       type: String,
       required: false,
-      // index: { unique: true, sparse: true },
+      index: { unique: true, sparse: true },
     },
     mb_address: {
       type: String,

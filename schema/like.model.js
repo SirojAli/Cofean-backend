@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const { like_view_enums, blog_type_enums } = require("../lib/config");
-const Scheme = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 const likeSchema = new mongoose.Schema(
   {
-    mb_id: { type: Scheme.Types.ObjectId, required: true },
-    like_ref_id: { type: Scheme.Types.ObjectId, required: true },
+    mb_id: { type: Schema.Types.ObjectId, required: true },
+    like_ref_id: { type: Schema.Types.ObjectId, required: true },
     like_group: {
       type: String,
       required: true,

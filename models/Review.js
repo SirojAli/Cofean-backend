@@ -58,7 +58,6 @@ class Review {
             mb_id: this.mb_id,
             review_ref_id: review_ref_id,
             review_group: group_type,
-            title: title,
             content: content,
             product_rating: product_rating,
           })
@@ -66,7 +65,6 @@ class Review {
             mb_id: this.mb_id,
             review_ref_id: review_ref_id,
             review_group: group_type,
-            title: title,
             content: content,
           });
       const result = await new_review.save();
@@ -82,7 +80,7 @@ class Review {
     }
   }
 
-  async modifyItmeViewCounts(review_ref_id, group_type, title, product_rating) {
+  async modifyItemViewCounts(review_ref_id, group_type, title, product_rating) {
     try {
       switch (group_type) {
         case "product":
@@ -92,16 +90,12 @@ class Review {
                 _id: review_ref_id,
               },
               {
-                $inc: {
-                  product_rating: product_rating,
-                  // title,
-                  product_reviews: 1,
-                },
+                $inc: { product_rating: product_rating, product_reviews: 1 },
               }
             )
             .exec();
           break;
-        case "community":
+        case "blog":
           await this.blogModel
             .findByIdAndUpdate(
               {

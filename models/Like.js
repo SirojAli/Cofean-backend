@@ -3,6 +3,7 @@ const LikeModel = require("../schema/like.model");
 const ProductModel = require("../schema/product.model");
 const BlogModel = require("../schema/blog.model");
 const Definer = require("../lib/mistake");
+const { lookup_auth_member_liked } = require("../lib/config");
 
 class Like {
   constructor(mb_id) {
@@ -134,6 +135,36 @@ class Like {
           break;
       }
       return true;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async myLikesData(mb_id, data) {
+    try {
+      const match = {
+        mb_id: mb_id,
+        like_group: data.like_group,
+      };
+      const result = await this.likeModel
+        .aggregate([
+          { $match: match },
+          { $sort: { createdAt: -1 } },
+          { $skip: (data.page * 1 - 1) * data.limit },
+          { $limit: data.limit * 1 },
+          {
+            $lookup: {
+              from: "products",
+              localField: "like_ref_id",
+              foreignField: "_id",
+              pipeline: [lookup_auth_member_liked(mb_id)],
+              as: "product_data",
+            },
+          },
+          { $unwind: "$product_data" },
+        ])
+        .exec();
+      return result;
     } catch (err) {
       throw err;
     }

@@ -18,22 +18,16 @@ class Order {
 
   async createOrderData(member, data) {
     try {
-      let order_total_amount = 0,
-        order_delivery_cost = 0;
+      let order_total_amount = 0;
       const mb_id = shapeIntoMongooseObjectId(member._id);
       data.map((item) => {
         order_total_amount +=
           item["quantity"] *
           Math.round((item["price"] * (100 - item["discount"])) / 1000) *
           10;
-        order_delivery_cost += item["delivery_fee"];
       });
 
-      const order_id = await this.saveOrderData(
-        order_total_amount,
-        order_delivery_cost,
-        mb_id
-      );
+      const order_id = await this.saveOrderData(order_total_amount, mb_id);
 
       await this.recordOrderItemsData(order_id, data);
 
@@ -43,11 +37,10 @@ class Order {
     }
   }
 
-  async saveOrderData(order_total_amount, order_delivery_cost, mb_id) {
+  async saveOrderData(order_total_amount, mb_id) {
     try {
       const new_order = new this.orderModel({
         order_total_amount: order_total_amount,
-        order_delivery_cost: order_delivery_cost,
         mb_id: mb_id,
       });
       const result = await new_order.save();
@@ -79,7 +72,6 @@ class Order {
       const order_item = new this.orderItemModel({
         item_quantity: item["quantity"],
         item_price: item["price"],
-        item_delivery_cost: item["delivery_fee"],
         order_id: order_id,
         product_id: item["_id"],
       });
@@ -92,6 +84,7 @@ class Order {
       throw new Error(Definer.order_err2);
     }
   }
+
   async insertSoldLeftCount(id, quantity) {
     try {
       await this.productModel
@@ -156,9 +149,9 @@ class Order {
         order_status = data.order_status.toUpperCase();
 
       const result = await this.orderModel.findOneAndUpdate(
-        { mb_id: mb_id, _id: order_id }, //filtering query mechanism
+        { mb_id: mb_id, _id: order_id },
         { order_status: order_status },
-        { runValidators: true, lean: true, returnDocument: "after" } //options
+        { runValidators: true, lean: true, returnDocument: "after" }
       );
       assert.ok(result, Definer.order_err3);
       return result;
