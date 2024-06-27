@@ -43,10 +43,6 @@ const productSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
-    product_left_count: {
-      type: Number,
-      required: true,
-    },
     // for coffee, tea, smoothies
     product_volume: {
       type: Number,

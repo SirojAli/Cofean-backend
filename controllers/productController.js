@@ -8,7 +8,6 @@ let productController = module.exports;
 productController.getAllProducts = async (req, res) => {
   try {
     console.log("POST: cont/getAllProducts");
-
     const product = new Product();
     const result = await product.getAllProductsData(req.member, req.body);
     res.json({ state: "succeed", data: result });
@@ -36,14 +35,12 @@ productController.getAllProducts = async (req, res) => {
 productController.getChosenProduct = async (req, res) => {
   try {
     console.log("GET: cont/getChosenProduct");
-
     const productId = req.params.id;
     const result = await ProductSchema.findOne({ _id: productId }).populate(
       "cafe_mb_id",
       "mb_nick mb_phone mb_address mb_description mb_image mb_point mb_top mb_views mb_likes mb_follow_count mb_subscriber_count"
     );
     console.log("cafe_mb_id>>>", result.cafe_mb_id);
-
     res.json({ state: "succeed", data: result });
   } catch (err) {
     console.log(`ERROR, cont/getChosenProduct, ${err.message} `);
@@ -70,7 +67,6 @@ productController.addNewProduct = async (req, res) => {
     const newProductData = {
       product_name: data.product_name,
       product_price: data.product_price,
-      product_left_count: data.product_left_count,
       product_collection: data.product_collection,
       product_description: data.product_description,
       product_status: data.product_status,

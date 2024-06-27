@@ -21,16 +21,11 @@ class Order {
       let order_total_amount = 0;
       const mb_id = shapeIntoMongooseObjectId(member._id);
       data.map((item) => {
-        order_total_amount +=
-          item["quantity"] *
-          Math.round((item["price"] * (100 - item["discount"])) / 1000) *
-          10;
+        order_total_amount += item["item_quantity"] * item["item_price"];
       });
 
       const order_id = await this.saveOrderData(order_total_amount, mb_id);
-
       await this.recordOrderItemsData(order_id, data);
-
       return order_id;
     } catch (err) {
       throw err;
@@ -70,40 +65,17 @@ class Order {
       item._id = shapeIntoMongooseObjectId(item._id);
 
       const order_item = new this.orderItemModel({
-        item_quantity: item["quantity"],
-        item_price: item["price"],
+        item_quantity: item["item_quantity"],
+        item_price: item["item_price"],
         order_id: order_id,
         product_id: item["_id"],
       });
-      await this.insertSoldLeftCount(item["_id"], item["quantity"]);
       const result = await order_item.save();
       assert.ok(result, Definer.order_err2);
       return "created";
     } catch (err) {
       console.log(err);
       throw new Error(Definer.order_err2);
-    }
-  }
-
-  async insertSoldLeftCount(id, quantity) {
-    try {
-      await this.productModel
-        .findByIdAndUpdate(
-          {
-            _id: id,
-          },
-          {
-            $inc: {
-              product_sold_cnt: quantity * 1,
-              product_left_cnt: quantity * -1,
-            },
-          }
-        )
-        .exec();
-      return true;
-    } catch (err) {
-      console.log(err);
-      throw err;
     }
   }
 

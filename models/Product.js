@@ -66,28 +66,66 @@ class Product {
   async getAllProductsData(member, data) {
     try {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
-      let match = { product_status: "PROCESS" };
+
+      // Convert data.limit and data.page to numbers
+      const limit = parseInt(data.limit); // Convert limit to number
+      const page = parseInt(data.page); // Convert page to number
+
+      // Ensure data.price is defined and has at least two elements
+      const min_price = data.price && data.price[0] ? data.price[0] * 1000 : 0;
+      const max_price =
+        data.price && data.price[1] ? data.price[1] * 1000 : 12000;
+
+      // Check if cafe_mb_id is present and convert it to Mongoose ObjectId
+      let cafeMbId = null;
       if (data.cafe_mb_id) {
-        match["cafe_mb_id"] = shapeIntoMongooseObjectId(data.cafe_mb_id);
-        match["product_collection"] = data.product_collection;
+        cafeMbId = shapeIntoMongooseObjectId(data.cafe_mb_id);
       }
 
-      const sort =
-        data.order === "product_price"
-          ? { [data.order]: 1 } // produc_price uchun
-          : { [data.order]: -1 }; // createdAt uchun
+      // Construct the match query based on data properties
+      const match = {
+        product_status: "PROCESS",
+        product_collection: { $in: data.product_collection },
+        // Only include cafe_mb_id if it's valid
+        ...(cafeMbId && { cafe_mb_id: cafeMbId }),
+      };
 
+      // Add additional conditions based on data.search
+      if (data.search !== "") {
+        match.$or = [
+          { product_price: { $gt: min_price, $lt: max_price } },
+          {
+            product_name: { $regex: ".*" + data.search + ".*", $options: "i" },
+          },
+        ];
+      } else {
+        match.product_price = { $gt: min_price, $lt: max_price };
+      }
+
+      // Determine sort order based on data.order
+      const sort = {};
+      if (data.order === "product_price") {
+        sort[data.order] = 1; // Ascending order for product_price
+      } else {
+        sort[data.order] = -1; // Descending order for other fields
+      }
+
+      // Execute the aggregation pipeline
       const result = await this.productModel
         .aggregate([
           { $match: match },
           { $sort: sort },
-          { $skip: (data.page * 1 - 1) * data.limit },
-          { $limit: data.limit * 1 },
+          { $skip: (page - 1) * limit },
+          { $limit: limit },
           lookup_auth_member_liked(auth_mb_id),
         ])
         .exec();
 
-      assert.ok(result, Definer.general_err1);
+      // Check if result is valid
+      if (!result) {
+        throw new Error("No data found");
+      }
+
       return result;
     } catch (err) {
       throw err;

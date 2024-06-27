@@ -6,7 +6,7 @@ const Definer = require("../lib/mistake");
 orderController.createOrder = async (req, res) => {
   try {
     console.log("POST: cont/createOrder");
-    assert.ok(req.member, Definer.auth_err5);
+    assert.ok(req.member, Definer.auth_err1);
     const order = new Order();
     const result = await order.createOrderData(req.member, req.body);
     res.json({ state: "sucess", data: result });
@@ -19,7 +19,7 @@ orderController.createOrder = async (req, res) => {
 orderController.getMyOrders = async (req, res) => {
   try {
     console.log("GET: cont/getMyOrders");
-    assert.ok(req.member, Definer.auth_err5);
+    assert.ok(req.member, Definer.auth_err1);
     const order = new Order();
     const result = await order.getMyOrdersData(req.member, req.query);
 

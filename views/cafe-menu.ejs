@@ -41,7 +41,6 @@
                 value.product_volume : value.product_size %>
               </td>
               <td><%= value.product_price%></td>
-              <td><%= value.product_left_count%></td>
               <td>
                 <select class="spec_select new_product_status" id="<%= value._id %>">
                   <option value="PROCESS" <%= value.product_status === 'PROCESS' ? 'selected' : '' %> >PROCESS</option>
@@ -75,10 +74,7 @@
               <label for="product_price">Product Price</label>
               <input id="product_price" type="number" placeholder="Product Price" name="product_price" class="product_price">
             </div>
-            <div class="half_input">
-              <label for="product_left_count">Product Left Count</label>
-              <input id="product_left_count" type="number" placeholder="Product Left Count" name="product_left_count" class="product_left_count">
-            </div>
+           
           </div>
           <div class="half_input_frame">
            <div class="half_input">
@@ -229,7 +225,6 @@
       const cafe_mb_id = $(".cafe_mb_id").val(),
         product_name = $(".product_name").val(),
         product_price = $(".product_price").val(),
-        product_left_count = $(".product_left_count").val(),
         product_collection = $(".product_collection").val(),
         product_description = $(".product_description").val(),
         product_status = $(".product_status").val();
@@ -238,7 +233,6 @@
         cafe_mb_id == '' ||
         product_name == '' ||
         product_price == '' ||
-        product_left_count == '' ||
         product_collection == '' ||
         product_description == '' ||
         product_status == ''
