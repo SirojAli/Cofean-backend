@@ -21,10 +21,11 @@ class Order {
       let order_total_amount = 0;
       const mb_id = shapeIntoMongooseObjectId(member._id);
       data.map((item) => {
-        order_total_amount += item["item_quantity"] * item["item_price"];
+        order_total_amount += item["quantity"] * item["price"];
       });
 
       const order_id = await this.saveOrderData(order_total_amount, mb_id);
+      console.log("order_id >>>", order_id);
       await this.recordOrderItemsData(order_id, data);
       return order_id;
     } catch (err) {
@@ -40,7 +41,7 @@ class Order {
       });
       const result = await new_order.save();
       assert.ok(result, Definer.order_err1);
-      return result;
+      return result._id;
     } catch (err) {
       console.log(err);
       throw new Error(Definer.order_err1);
@@ -65,8 +66,8 @@ class Order {
       item._id = shapeIntoMongooseObjectId(item._id);
 
       const order_item = new this.orderItemModel({
-        item_quantity: item["item_quantity"],
-        item_price: item["item_price"],
+        item_quantity: item["quantity"],
+        item_price: item["price"],
         order_id: order_id,
         product_id: item["_id"],
       });
@@ -81,11 +82,9 @@ class Order {
 
   async getMyOrdersData(member, query) {
     try {
-      const mb_id = shapeIntoMongooseObjectId(member._id),
-        order_query = query.status.toUpperCase(),
-        order_status =
-          order_query === "ALL" ? { $in: order_status_enums } : order_query,
-        matches = { mb_id: mb_id, order_status: order_status };
+      const mb_id = shapeIntoMongooseObjectId(member._id);
+      const order_status = query.status.toUpperCase();
+      const matches = { mb_id: mb_id, order_status: order_status };
       const result = await this.orderModel
         .aggregate([
           { $match: matches },
