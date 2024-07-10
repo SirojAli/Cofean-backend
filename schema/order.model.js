@@ -18,5 +18,13 @@ const orderSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+orderSchema.statics.deleteOrderById = async function (orderId, memberId) {
+  try {
+    const result = await this.deleteOne({ _id: orderId, mb_id: memberId });
+    return result;
+  } catch (err) {
+    throw err;
+  }
+};
 
 module.exports = mongoose.model("Order", orderSchema);

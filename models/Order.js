@@ -130,6 +130,22 @@ class Order {
       throw err;
     }
   }
+
+  // async deleteOrderData(member, orderId) {
+  //   try {
+  //     assert.ok(member, "Member data is required");
+  //     const result = await this.findOneAndDelete({
+  //       _id: orderId,
+  //       mb_id: member._id,
+  //     });
+  //     assert.ok(result, "Order not found or already deleted");
+
+  //     return result;
+  //   } catch (err) {
+  //     console.log(`ERROR, model/deleteOrderData, ${err.message}`);
+  //     throw new Error(err.message);
+  //   }
+  // }
 }
 
 module.exports = Order;

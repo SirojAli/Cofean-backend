@@ -78,6 +78,11 @@ router.post(
   memberController.retrieveAuthMember,
   orderController.editChosenOrder
 );
+// router.delete(
+//   "/orders/:orderId",
+//   memberController.retrieveAuthMember,
+//   orderController.deleteOrder
+// );
 
 // Blog related routers
 router.post(

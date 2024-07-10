@@ -42,3 +42,16 @@ orderController.editChosenOrder = async (req, res) => {
     res.json({ state: "fail", message: err.message });
   }
 };
+
+// orderController.deleteOrder = async (req, res) => {
+//   try {
+//     console.log("DELETE: cont/deleteOrder");
+//     assert.ok(req.member, Definer.auth_err1);
+//     const order = new Order();
+//     const result = await order.deleteOrderData(req.member, req.params.orderId);
+//     res.json({ state: "success", data: result });
+//   } catch (err) {
+//     console.log(`ERROR, cont/deleteOrder, ${err.message}`);
+//     res.json({ state: "fail", message: err.message });
+//   }
+// };
