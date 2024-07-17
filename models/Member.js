@@ -157,7 +157,7 @@ class Member {
         mb_description: data.mb_description,
         mb_image: image ? image.path.replace(/\\/g, "/") : null,
       };
-
+      console.log("params >>>", params);
       for (let prop in params) if (!params[prop]) delete params[prop];
       const result = await this.memberModel
         .findOneAndUpdate({ _id: mb_id }, params, {
@@ -167,7 +167,6 @@ class Member {
         })
         .exec();
       assert.ok(result, Definer.general_err1);
-
       return result;
     } catch (err) {
       throw err;
@@ -178,26 +177,21 @@ class Member {
     try {
       const review_ref_id = shapeIntoMongooseObjectId(data.review_ref_id);
       const mb_id = shapeIntoMongooseObjectId(member._id);
-      const review = new Review({
-        mb_id: mb_id,
-        review_ref_id: review_ref_id,
-        review_group: data.review_group,
-        title: data.title,
-        content: data.content,
-        product_rating: data.product_rating ? data.product_rating : 0,
-      });
+      const review = new Review(mb_id);
+      const group_type = data.group_type;
+      const content = data.content;
+      const product_rating = data.product_rating ? data.product_rating : 0;
       const isValid = await review.validateChosenTarget(
         review_ref_id,
-        data.group_type
+        group_type
       );
       assert.ok(isValid, Definer.general_err2);
 
       const result = await review.insertMemberReview(
         review_ref_id,
-        data.group_type,
-        data.title,
-        data.content,
-        data.product_rating
+        group_type,
+        content,
+        product_rating
       );
       assert.ok(result, Definer.general_err1);
 

@@ -55,11 +55,11 @@ const productSchema = new mongoose.Schema(
         message: "{VALUES} is not among permitted values",
       },
     },
-    // for food and cakes & goods
+    // for food and cakes
     product_size: {
       type: String,
       required: function () {
-        const sized_list = ["food", "goods"];
+        const sized_list = ["food"];
         return sized_list.includes(this.product_collection);
       },
       default: "default",
@@ -88,7 +88,7 @@ const productSchema = new mongoose.Schema(
       required: false,
       default: 0,
     },
-    product_review: {
+    product_reviews: {
       type: Number,
       required: false,
       default: 0,

@@ -45,13 +45,7 @@ class Review {
     }
   }
 
-  async insertMemberReview(
-    review_ref_id,
-    group_type,
-    title,
-    content,
-    product_rating
-  ) {
+  async insertMemberReview(review_ref_id, group_type, content, product_rating) {
     try {
       const new_review = product_rating
         ? new this.reviewModel({
@@ -71,7 +65,6 @@ class Review {
       await this.modifyItemViewCounts(
         review_ref_id,
         group_type,
-        title,
         product_rating
       );
       return result;
@@ -80,7 +73,7 @@ class Review {
     }
   }
 
-  async modifyItemViewCounts(review_ref_id, group_type, title, product_rating) {
+  async modifyItemViewCounts(review_ref_id, group_type, product_rating) {
     try {
       switch (group_type) {
         case "product":
@@ -101,7 +94,7 @@ class Review {
               {
                 _id: review_ref_id,
               },
-              { $inc: { blog_views: 1 } }
+              { $inc: { blog_reviews: 1 } }
             )
             .exec();
           break;

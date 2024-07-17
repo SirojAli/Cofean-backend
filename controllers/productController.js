@@ -31,22 +31,49 @@ productController.getAllProducts = async (req, res) => {
 //     res.json({ state: "failed", message: err.message });
 //   }
 // };
-
 productController.getChosenProduct = async (req, res) => {
   try {
     console.log("GET: cont/getChosenProduct");
+
     const productId = req.params.id;
-    const result = await ProductSchema.findOne({ _id: productId }).populate(
-      "cafe_mb_id",
-      "mb_nick mb_phone mb_address mb_description mb_image mb_point mb_top mb_views mb_likes mb_follow_count mb_subscriber_count"
-    );
-    console.log("cafe_mb_id>>>", result.cafe_mb_id);
+
+    // Use getChosenProductData to fetch additional product details
+    const product = new Product();
+    const result = await product.getChosenProductData(req.member, productId);
+
+    if (!result) {
+      throw new Error("Product not found");
+    }
+
+    // Populate cafe_mb_id from ProductSchema
+    await ProductSchema.populate(result, {
+      path: "cafe_mb_id",
+      select:
+        "mb_nick mb_phone mb_address mb_description mb_image mb_point mb_top mb_views mb_likes mb_follow_count mb_subscriber_count",
+    });
+
+    console.log("Product details:", result);
     res.json({ state: "succeed", data: result });
   } catch (err) {
-    console.log(`ERROR, cont/getChosenProduct, ${err.message} `);
-    res.json({ state: "failed", message: err.message });
+    console.error(`ERROR, cont/getChosenProduct, ${err.message}`);
+    res.status(500).json({ state: "failed", message: err.message });
   }
 };
+// productController.getChosenProduct = async (req, res) => {
+//   try {
+//     console.log("GET: cont/getChosenProduct");
+//     const productId = req.params.id;
+//     const result = await ProductSchema.findOne({ _id: productId }).populate(
+//       "cafe_mb_id",
+//       "mb_nick mb_phone mb_address mb_description mb_image mb_point mb_top mb_views mb_likes mb_follow_count mb_subscriber_count"
+//     );
+//     console.log("cafe_mb_id>>>", result.cafe_mb_id);
+//     res.json({ state: "succeed", data: result });
+//   } catch (err) {
+//     console.log(`ERROR, cont/getChosenProduct, ${err.message} `);
+//     res.json({ state: "failed", message: err.message });
+//   }
+// };
 
 /*******************************
  *     BSSR RELATED METHODS    *

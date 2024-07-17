@@ -29,6 +29,12 @@ router.post(
   memberController.retrieveAuthMember,
   memberController.likeMemberChosen
 );
+router.post(
+  "/member/update",
+  memberController.retrieveAuthMember,
+  uploader_member.single("mb_image"),
+  memberController.updateMember
+);
 
 // Cafe related routers
 router.get(

@@ -10,7 +10,7 @@ const reviewSchema = new mongoose.Schema(
       required: true,
       enum: { values: like_view_enums },
     },
-    content: { type: String, required: false },
+    content: { type: String, required: true },
     product_rating: { type: Number, required: false },
   },
   { timestamps: { createdAt: true } }

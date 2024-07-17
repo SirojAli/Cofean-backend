@@ -49,6 +49,7 @@ class View {
       throw err;
     }
   }
+
   async insertMemberView(view_ref_id, group_type) {
     try {
       const new_view = new this.viewModel({
@@ -57,8 +58,6 @@ class View {
         view_group: group_type,
       });
       const result = await new_view.save();
-
-      //   target items view sonini bittaga oshiramiz
       await this.modifyItemViewCounts(view_ref_id, group_type);
       return result;
     } catch (err) {
