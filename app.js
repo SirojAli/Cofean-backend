@@ -7,6 +7,11 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 // const path = require("path");
 
+// Define a base route
+router.get("/", (req, res) => {
+  res.render("views/home-page"); // Make sure 'index.ejs' exists in the 'views' folder
+});
+
 let session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const store = new MongoDBStore({
