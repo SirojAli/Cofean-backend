@@ -3,6 +3,9 @@ dotenv.config();
 const http = require("http");
 const mongoose = require("mongoose");
 
+// Set strictQuery to true to avoid deprecation warnings and prepare for future changes
+mongoose.set("strictQuery", false);
+
 const connectionString = process.env.MONGO_URL;
 mongoose.connect(
   connectionString,
