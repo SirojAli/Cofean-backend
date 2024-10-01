@@ -7,11 +7,6 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 // const path = require("path");
 
-// Define a base route
-router.get("/", (req, res) => {
-  res.render("home-page"); // Make sure 'index.ejs' exists in the 'views' folder
-});
-
 let session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const store = new MongoDBStore({
@@ -39,6 +34,7 @@ app.use(
     secret: process.env.SESSION_SECRET,
     cookie: {
       maxAge: 1000 * 60 * 720, // 720 minutes for saving cookies
+      secure: process.env.NODE_ENV === "production", // Ensure cookies are sent only over HTTPS
     },
     store: store,
     resave: true,
@@ -52,7 +48,8 @@ app.use(function (req, res, next) {
 });
 
 // 3: Views codes
-app.set("views", "views");
+// app.set("views", "views");
+app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 
 // 4: Routing codes
