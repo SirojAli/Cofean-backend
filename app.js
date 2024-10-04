@@ -24,7 +24,8 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: true,
+    // origin: true,
+    origin: ["http://localhost:3003", "https://server.cofean.uz"], // Replace with the exact domains
   })
 );
 
@@ -34,7 +35,9 @@ app.use(
     secret: process.env.SESSION_SECRET,
     cookie: {
       maxAge: 1000 * 60 * 720, // 720 minutes for saving cookies
-      secure: process.env.NODE_ENV === "production", // Ensure cookies are sent only over HTTPS
+      // secure: process.env.NODE_ENV === "production", // Ensure cookies are sent only over HTTPS
+      secure: false,
+      // sameSite: "None", // setting this for cross-site cookies
     },
     store: store,
     resave: true,
@@ -43,6 +46,7 @@ app.use(
 );
 
 app.use(function (req, res, next) {
+  console.log(req.session.member); // Log the session data for debugging
   res.locals.member = req.session.member;
   next();
 });
