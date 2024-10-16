@@ -35,8 +35,8 @@ app.use(
     secret: process.env.SESSION_SECRET,
     cookie: {
       maxAge: 1000 * 60 * 720, // 720 minutes for saving cookies
+      secure: false, // Use true in production if your app is served over HTTPS
       // secure: process.env.NODE_ENV === "production", // Ensure cookies are sent only over HTTPS
-      secure: false,
       // sameSite: "None", // setting this for cross-site cookies
     },
     store: store,
