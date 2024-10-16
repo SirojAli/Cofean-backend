@@ -5,7 +5,7 @@ const router = require("./router");
 const router_bssr = require("./router_bssr");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-// const path = require("path");
+const path = require("path");
 
 let session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
@@ -53,6 +53,7 @@ app.use(function (req, res, next) {
 
 // 3: Views codes
 // app.set("views", "views");
+// app.set("views", path.join(__dirname, "views"));
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 
