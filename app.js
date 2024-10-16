@@ -25,7 +25,7 @@ app.use(
   cors({
     credentials: true,
     // origin: true,
-    origin: ["http://localhost:3003", "https://server.cofean.uz"], // Replace with the exact domains
+    origin: ["http://localhost:3000", "https://server.cofean.uz"], // Replace with the exact domains
   })
 );
 
