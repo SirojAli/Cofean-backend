@@ -41,7 +41,9 @@ memberController.login = async (req, res) => {
 
     res.cookie("access_token", token, {
       maxAge: 6 * 3600 * 1000,
-      httpOnly: false,
+      httpOnly: true, // Set to true for better security
+      secure: process.env.NODE_ENV === "production", // Ensures HTTPS in production
+      sameSite: "strict", // To prevent CSRF attacks
     });
 
     res.json({ state: "succeed", data: result });
